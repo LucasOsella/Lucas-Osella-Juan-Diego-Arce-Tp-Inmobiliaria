@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 
-namespace Tp_inmobiliaria.Controllers;
+namespace Tp_inmobiliaria.Models;
 
 public class Propietario
 {

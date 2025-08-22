@@ -2,18 +2,18 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 
-namespace Tp_inmobiliaria.Controllers;
+namespace Tp_inmobiliaria.Models;
 
 public class RepositoriosPropietario
 
 {
-    string conexion = "Server=localhost;Database=inmobiliaria-lucasosella;User Id=sa;Password=;";
+    string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";
 
     public List<Propietario> ObtenerPropietarios()
     {
         List<Propietario> propietarios = new List<Propietario>();
 
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(conexion))
+        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
         {
             var query = $@"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)}, {nameof(Propietario.Direccion)} FROM propietario";
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
