@@ -25,7 +25,7 @@ public class InquilinosController : Controller
         return View(); // Busca Views/Inquilinos/agregarInquilino.cshtml
     }
 
-       public IActionResult EditarInquilino(int id)
+    public IActionResult EditarInquilino(int id)
     {
         var inquilinos = repo.obtenerInquilino(id);
         return View(inquilinos);// Busca Views/Propietarios/editarInquilino.cshtml
@@ -42,6 +42,12 @@ public class InquilinosController : Controller
     public IActionResult GuardarEdicionInquilinos(Inquilinos inquilinos)
     {
         repo.editarInquilino(inquilinos);
+        return RedirectToAction("Index");
+    }
+    
+    public IActionResult EliminarInquilino(int id)
+    {
+        repo.eliminarInquilino(id);
         return RedirectToAction("Index");
     }
 

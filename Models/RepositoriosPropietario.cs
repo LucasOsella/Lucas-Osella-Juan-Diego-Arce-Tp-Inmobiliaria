@@ -64,35 +64,35 @@ public class RepositoriosPropietario
 
 
 
-  public Propietario ObtenerPropietario(int id)
-{
-    var query = "SELECT id, dni, apellido, nombre, telefono, email, direccion FROM propietario WHERE id=@id";
-    Propietario propietario = null;
-
-    using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
-    using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+    public Propietario ObtenerPropietario(int id)
     {
-        command.Parameters.AddWithValue("@id", id);
-        connection.Open();
-        using (var reader = command.ExecuteReader())
+        var query = "SELECT id, dni, apellido, nombre, telefono, email, direccion FROM propietario WHERE id=@id";
+        Propietario propietario = null;
+
+        using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
         {
-            if (reader.Read())
+            command.Parameters.AddWithValue("@id", id);
+            connection.Open();
+            using (var reader = command.ExecuteReader())
             {
-                propietario = new Propietario()
+                if (reader.Read())
                 {
-                    Id = reader.GetInt32("id"),
-                    Dni = reader.GetInt32("dni"),
-                    Apellido = reader.GetString("apellido"),
-                    Nombre = reader.GetString("nombre"),
-                    Telefono = reader.GetString("telefono"),
-                    Email = reader.GetString("email"),
-                    Direccion = reader.GetString("direccion")
-                };
+                    propietario = new Propietario()
+                    {
+                        Id = reader.GetInt32("id"),
+                        Dni = reader.GetInt32("dni"),
+                        Apellido = reader.GetString("apellido"),
+                        Nombre = reader.GetString("nombre"),
+                        Telefono = reader.GetString("telefono"),
+                        Email = reader.GetString("email"),
+                        Direccion = reader.GetString("direccion")
+                    };
+                }
             }
         }
+        return propietario;
     }
-    return propietario;
-}
 
 
     public void editarPropietario(Propietario propietario)
@@ -114,5 +114,20 @@ public class RepositoriosPropietario
             }
         }
     }
+
+    public void eliminarPropietario(int id)
+    {
+        var query = "DELETE FROM propietario WHERE id=@id";
+        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        {
+            using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    
     
 }

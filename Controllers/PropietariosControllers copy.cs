@@ -46,5 +46,11 @@ public class PropietariosController : Controller
         return RedirectToAction("Index");
     }
 
+    public IActionResult EliminarPropietario(int id)
+    {
+        repo.eliminarPropietario(id);
+        return RedirectToAction("Index");
+    }
+
 }
 

@@ -31,6 +31,7 @@
             <td>@p.Email</td>
             <td>@p.Direccion</td>
             <td><a type="button" class="btn btn-primary" asp-action="EditarPropietario" asp-route-id="@p.Id" >Editar</a></td>
+            <td><a type="button" class="btn btn-danger" asp-action="EliminarPropietario" asp-route-id="@p.Id" >Eliminar</a></td>
         </tr>
     }
     </tbody>

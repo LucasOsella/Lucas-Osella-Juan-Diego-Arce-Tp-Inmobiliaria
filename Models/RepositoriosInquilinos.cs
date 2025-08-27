@@ -103,5 +103,19 @@ public class RepositoriosInquilinos
         }
         return inquilino;
     }
+
+    public void eliminarInquilino(int id)
+    {
+        var query = "DELETE FROM inquilino WHERE id=@id";
+        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        {
+            using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
     
 }
