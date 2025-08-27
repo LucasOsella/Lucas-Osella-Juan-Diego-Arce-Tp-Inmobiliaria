@@ -7,7 +7,7 @@
     <h1 class="display-4">Lista de Inquilinos</h1>
 </div>
 <table class="table table-striped,  table table-hover">
-    <a type="button" class="btn btn-primary" asp-action="AgregarInquilino">Agregar Inquilino</a>
+    <a type="button" class="btn btn-success" asp-action="AgregarInquilino">Agregar Inquilino</a>
     <thead>
         <tr>
             <th>ID</th>
@@ -28,7 +28,7 @@
             <td>@p.Telefono</td>
             <td>@p.Email</td>
             <td>@p.Direccion</td>
-            <td><a type="button" class="btn btn-primary" asp-action="EditarInquilino" asp-route-id="@p.Id" >Editar</a></td>
+            <td><a type="button" class="btn btn-success" asp-action="EditarInquilino" asp-route-id="@p.Id" >Editar</a></td>
         </tr>
     }
     </tbody>
