@@ -38,5 +38,81 @@ public class RepositoriosPropietario
         }
         return propietarios;
     }
+    public void agregarPropietario(Propietario propietario)
+    {
+
+        var query = @"INSERT INTO propietario (dni, apellido, nombre, telefono, email, direccion) VALUES (@dni, @apellido, @nombre, @telefono, @email, @direccion)";
+
+        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        {
+            using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@dni", propietario.Dni);
+                command.Parameters.AddWithValue("@apellido", propietario.Apellido);
+                command.Parameters.AddWithValue("@nombre", propietario.Nombre);
+                command.Parameters.AddWithValue("@telefono", propietario.Telefono);
+                command.Parameters.AddWithValue("@email", propietario.Email);
+                command.Parameters.AddWithValue("@direccion", propietario.Direccion);
+                if ("@dni" != null || "@apellido" != null || "@nombre" != null || "@telefono" != null || "@email" != null || "@direccion" != null)
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+
+
+
+  public Propietario ObtenerPropietario(int id)
+{
+    var query = "SELECT id, dni, apellido, nombre, telefono, email, direccion FROM propietario WHERE id=@id";
+    Propietario propietario = null;
+
+    using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+    using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+    {
+        command.Parameters.AddWithValue("@id", id);
+        connection.Open();
+        using (var reader = command.ExecuteReader())
+        {
+            if (reader.Read())
+            {
+                propietario = new Propietario()
+                {
+                    Id = reader.GetInt32("id"),
+                    Dni = reader.GetInt32("dni"),
+                    Apellido = reader.GetString("apellido"),
+                    Nombre = reader.GetString("nombre"),
+                    Telefono = reader.GetString("telefono"),
+                    Email = reader.GetString("email"),
+                    Direccion = reader.GetString("direccion")
+                };
+            }
+        }
+    }
+    return propietario;
+}
+
+
+    public void editarPropietario(Propietario propietario)
+    {
+        var query = @"UPDATE propietario SET dni=@dni, apellido=@apellido, nombre=@nombre, telefono=@telefono, email=@email, direccion=@direccion WHERE id=@id";
+        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        {
+            using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", propietario.Id);
+                command.Parameters.AddWithValue("@dni", propietario.Dni);
+                command.Parameters.AddWithValue("@apellido", propietario.Apellido);
+                command.Parameters.AddWithValue("@nombre", propietario.Nombre);
+                command.Parameters.AddWithValue("@telefono", propietario.Telefono);
+                command.Parameters.AddWithValue("@email", propietario.Email);
+                command.Parameters.AddWithValue("@direccion", propietario.Direccion);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
     
 }
