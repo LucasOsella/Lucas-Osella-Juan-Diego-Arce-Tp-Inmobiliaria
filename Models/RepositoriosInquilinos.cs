@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Models;
@@ -7,13 +8,21 @@ namespace Tp_inmobiliaria.Models;
 public class RepositoriosInquilinos
 
 {
-    string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";
+    //string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";
+    private readonly ConexionBD conexionBD;
+
+    public RepositoriosInquilinos(ConexionBD conexionBD)
+    { 
+        this.conexionBD = conexionBD;
+    }
+
+
 
     public List<Inquilinos> ObtenerInquilinos()
     {
         List<Inquilinos> inquilinos = new List<Inquilinos>();
-
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         {
             var query = $@"SELECT {nameof(Inquilinos.Id)}, {nameof(Inquilinos.Dni)},{nameof(Inquilinos.Nombre)}, {nameof(Inquilinos.Telefono)}, {nameof(Inquilinos.Email)}, {nameof(Inquilinos.Direccion)} FROM inquilino";
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
@@ -41,7 +50,8 @@ public class RepositoriosInquilinos
     public void agregarInquilino(Inquilinos inquilino)
     {
         var query = @"INSERT INTO inquilino (dni, nombre, telefono, email, direccion) VALUES (@dni, @nombre, @telefono, @email, @direccion)";
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
@@ -59,7 +69,8 @@ public class RepositoriosInquilinos
     public void editarInquilino(Inquilinos inquilino)
     {
         var query = @"UPDATE inquilino SET dni=@dni, nombre=@nombre, telefono=@telefono, email=@email, direccion=@direccion WHERE id=@id";
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        // using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
@@ -80,7 +91,8 @@ public class RepositoriosInquilinos
         var query = "SELECT id, dni, nombre, telefono, email, direccion FROM inquilino WHERE id=@id";
         Inquilinos inquilino = null;
 
-        using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        //using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@id", id);
@@ -107,7 +119,8 @@ public class RepositoriosInquilinos
     public void eliminarInquilino(int id)
     {
         var query = "DELETE FROM inquilino WHERE id=@id";
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {

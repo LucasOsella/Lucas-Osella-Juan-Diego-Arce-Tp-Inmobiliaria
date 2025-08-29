@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
+using MySql.Data.MySqlClient;
 
 namespace Tp_inmobiliaria.Controllers;
 
@@ -8,10 +9,10 @@ public class PropietariosController : Controller
     private readonly ILogger<PropietariosController> _logger;
     private RepositoriosPropietario repo;
 
-    public PropietariosController(ILogger<PropietariosController> logger)
+    public PropietariosController(ILogger<PropietariosController> logger, ConexionBD conexionBD)
     {
         _logger = logger;
-        repo = new RepositoriosPropietario();
+        repo = new RepositoriosPropietario(conexionBD);
     }
 
 
@@ -23,7 +24,8 @@ public class PropietariosController : Controller
     //Renderiza la vista de Agregar Propietario
     public IActionResult AgregarPropietario()
     {
-        return View(); // Busca Views/Propietarios/agregarPropietario.cshtml
+        // Busca Views/Propietarios/agregarPropietario.cshtml
+        return View(); 
     }
     //Renderiza al vista de Editar Propietario
     public IActionResult EditarPropietario(int id)
@@ -35,6 +37,11 @@ public class PropietariosController : Controller
     //Guarda el propietario desde la visa AgregarPropietario
     public IActionResult GuardarPropietario(Propietario propietario)
     {
+        if (!ModelState.IsValid)
+        { 
+         // Si hay errores de validación, volver a la vista mostrando los mensajes
+            return View("AgregarPropietario", propietario);
+        }
         repo.agregarPropietario(propietario);
         return RedirectToAction("Index");
     }

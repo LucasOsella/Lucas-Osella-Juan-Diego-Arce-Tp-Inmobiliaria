@@ -8,10 +8,10 @@ public class InquilinosController : Controller
     private readonly ILogger<InquilinosController> _logger;
     private RepositoriosInquilinos repo;
 
-    public InquilinosController(ILogger<InquilinosController> logger)
+    public InquilinosController(ILogger<InquilinosController> logger, ConexionBD conexionBD)
     {
         _logger = logger;
-        repo = new RepositoriosInquilinos();
+        repo = new RepositoriosInquilinos(conexionBD);
     }
 
     public IActionResult Index()
@@ -34,6 +34,11 @@ public class InquilinosController : Controller
     //Guarda el inquilino desde la visa AgregarInquilino
     public IActionResult GuardarInquilino(Inquilinos inquilinos)
     {
+        if (!ModelState.IsValid)
+        {
+            // Si hay errores de validación, volver a la vista mostrando los mensajes
+            return View("AgregarInquilino", inquilinos);
+        }
         repo.agregarInquilino(inquilinos);
         return RedirectToAction("Index");
     }

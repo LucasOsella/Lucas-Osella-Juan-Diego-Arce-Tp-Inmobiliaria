@@ -1,19 +1,28 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
+using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Models;
 
 public class RepositoriosPropietario
-
 {
-    string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";
+    //string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";
+    private readonly ConexionBD conexionBD;
+
+    public RepositoriosPropietario(ConexionBD conexionBD)
+    { 
+        this.conexionBD = conexionBD;
+    }
+
+    
 
     public List<Propietario> ObtenerPropietarios()
     {
         List<Propietario> propietarios = new List<Propietario>();
 
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
         {
             var query = $@"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)}, {nameof(Propietario.Direccion)} FROM propietario";
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
@@ -41,9 +50,10 @@ public class RepositoriosPropietario
     public void agregarPropietario(Propietario propietario)
     {
 
-        var query = @"INSERT INTO propietario (dni, apellido, nombre, telefono, email, direccion) VALUES (@dni, @apellido, @nombre, @telefono, @email, @direccion)";
+        var query = "INSERT INTO propietario (dni, apellido, nombre, telefono, email, direccion) VALUES (@dni, @apellido, @nombre, @telefono, @email, @direccion)";
 
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
@@ -53,11 +63,8 @@ public class RepositoriosPropietario
                 command.Parameters.AddWithValue("@telefono", propietario.Telefono);
                 command.Parameters.AddWithValue("@email", propietario.Email);
                 command.Parameters.AddWithValue("@direccion", propietario.Direccion);
-                if ("@dni" != null || "@apellido" != null || "@nombre" != null || "@telefono" != null || "@email" != null || "@direccion" != null)
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
     }
@@ -66,39 +73,43 @@ public class RepositoriosPropietario
 
     public Propietario ObtenerPropietario(int id)
     {
-        var query = "SELECT id, dni, apellido, nombre, telefono, email, direccion FROM propietario WHERE id=@id";
-        Propietario propietario = null;
+        
+        { var query = "SELECT id, dni, apellido, nombre, telefono, email, direccion FROM propietario WHERE id=@id";
+            Propietario propietario = null;
 
-        using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
-        using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@id", id);
-            connection.Open();
-            using (var reader = command.ExecuteReader())
+            using (var connection = conexionBD.GetConnection())
+            //using (var connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+            using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
-                if (reader.Read())
+                command.Parameters.AddWithValue("@id", id);
+                connection.Open();
+                using (var reader = command.ExecuteReader())
                 {
-                    propietario = new Propietario()
+                    if (reader.Read())
                     {
-                        Id = reader.GetInt32("id"),
-                        Dni = reader.GetInt32("dni"),
-                        Apellido = reader.GetString("apellido"),
-                        Nombre = reader.GetString("nombre"),
-                        Telefono = reader.GetString("telefono"),
-                        Email = reader.GetString("email"),
-                        Direccion = reader.GetString("direccion")
-                    };
+                        propietario = new Propietario()
+                        {
+                            Id = reader.GetInt32("id"),
+                            Dni = reader.GetInt32("dni"),
+                            Apellido = reader.GetString("apellido"),
+                            Nombre = reader.GetString("nombre"),
+                            Telefono = reader.GetString("telefono"),
+                            Email = reader.GetString("email"),
+                            Direccion = reader.GetString("direccion")
+                        };
+                    }
                 }
             }
+            return propietario;
         }
-        return propietario;
     }
 
 
     public void editarPropietario(Propietario propietario)
     {
         var query = @"UPDATE propietario SET dni=@dni, apellido=@apellido, nombre=@nombre, telefono=@telefono, email=@email, direccion=@direccion WHERE id=@id";
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
@@ -118,7 +129,8 @@ public class RepositoriosPropietario
     public void eliminarPropietario(int id)
     {
         var query = "DELETE FROM propietario WHERE id=@id";
-        using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
+        using (var connection = conexionBD.GetConnection())
+        //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
