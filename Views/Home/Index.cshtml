@@ -3,15 +3,13 @@
 }
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Sistema Inmobiliario</h1>
-    <p class="text-center text-muted">Bienvenido, selecciona una opción para comenzar:</p>
-
     <div class="row mt-4">
         <!-- Propietarios -->
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
-                    <h4 class="card-title">Propietarios</h4>
+                    <h2><i class="bi bi-person-circle text-primary"></i></h2>
+                    <h4 class="card-title">Propietarios</h4>                    
                     <p class="card-text">Gestiona los propietarios: agregar, editar y eliminar registros.</p>
                     <a asp-controller="Propietarios" asp-action="Index" class="btn btn-primary">Ir a Propietarios</a>
                 </div>
@@ -22,7 +20,8 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
-                    <h4 class="card-title">Inquilinos</h4>
+                    <h3><i class="bi bi-person-fill text-success"></i></h3>
+                    <h4 class="card-title">Inquilinos </h4>
                     <p class="card-text">Administra los inquilinos registrados en el sistema.</p>
                     <a asp-controller="Inquilinos" asp-action="Index" class="btn btn-success">Ir a Inquilinos</a>
                 </div>
@@ -35,9 +34,10 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
+                    <h3><i class="bi bi-building text-success"></i></h3>
                     <h4 class="card-title">Inmuebles</h4>
                     <p class="card-text">Gestiona la información de los inmuebles disponibles.</p>
-                    <a asp-controller="Inmuebles" asp-action="Index" class="btn btn-warning">Ir a Inmuebles</a>
+                    <a asp-controller="Inmuebles" asp-action="Index" class="btn btn-success">Ir a Inmuebles</a>
                 </div>
             </div>
         </div>
@@ -45,9 +45,10 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
+                    <h3><i class="bi bi-clipboard-check text-primary"></i></h3>
                     <h4 class="card-title">Contratos</h4>
                     <p class="card-text">Consulta y administra los contratos de alquiler.</p>
-                    <a asp-controller="Contratos" asp-action="Index" class="btn btn-info">Ir a Contratos</a>
+                    <a asp-controller="Contratos" asp-action="Index" class="btn btn-primary">Ir a Contratos</a>
                 </div>
             </div>
         </div>
