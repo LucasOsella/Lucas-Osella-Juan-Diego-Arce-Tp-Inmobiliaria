@@ -7,11 +7,13 @@ public class InmueblesController : Controller
 {
     private readonly ILogger<InmueblesController> _logger;
     private RepositoriosInmuebles repo;
+     RepositoriosPropietario repoPropietario;
 
     public InmueblesController(ILogger<InmueblesController> logger, ConexionBD conexionBD)
     {
         _logger = logger;
         repo = new RepositoriosInmuebles(conexionBD);
+        repoPropietario = new RepositoriosPropietario(conexionBD);
     }
 
     // Lista de inmuebles
@@ -24,6 +26,8 @@ public class InmueblesController : Controller
     // Formulario para agregar un inmueble
     public IActionResult AgregarInmueble()
     {
+        var propietarios = repoPropietario.ObtenerPropietarios();
+        ViewBag.Propietarios = propietarios;
         return View(); // Views/Inmuebles/AgregarInmueble.cshtml
     }
 

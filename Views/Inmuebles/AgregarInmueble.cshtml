@@ -53,10 +53,17 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="IdPropietario" class="form-label">Propietario (ID)</label>
-        <input asp-for="IdPropietario" type="number" class="form-control" />
+        <label asp-for="IdPropietario" class="form-label">Propietario</label>
+        <select asp-for="IdPropietario" class="form-select" id="PropietarioId">
+            <option value="">-- Seleccione un propietario --</option>
+            @foreach (var p in ViewBag.Propietarios)
+            {
+                <option value="@p.Id">@p.Nombre @p.Apellido</option>
+            }
+        </select>
         <span asp-validation-for="IdPropietario" class="text-danger"></span>
     </div>
+
 
     <div class="mb-3">
         <label asp-for="IdTipo" class="form-label">Tipo (ID)</label>
@@ -68,6 +75,17 @@
     <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </form>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $(document).ready(function () {
+        $('#PropietarioId').select2({
+            placeholder: "Seleccione un propietario",
+            allowClear: true
+        });
+    });
+</script>
