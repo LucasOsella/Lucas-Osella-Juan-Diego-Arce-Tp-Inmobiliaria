@@ -7,8 +7,8 @@ public class InmueblesController : Controller
 {
     private readonly ILogger<InmueblesController> _logger;
     private RepositoriosInmuebles repo;
-     RepositoriosPropietario repoPropietario;
-     RepositoriosTipoInmuebles repoTipoInmueble;
+    RepositoriosPropietario repoPropietario;
+    RepositoriosTipoInmuebles repoTipoInmueble;
 
     public InmueblesController(ILogger<InmueblesController> logger, ConexionBD conexionBD)
     {

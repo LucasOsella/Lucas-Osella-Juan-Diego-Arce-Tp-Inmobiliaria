@@ -1,36 +1,46 @@
 using Tp_inmobiliaria.Controllers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Tp_inmobiliaria.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//Registro del servicio de conexión
+
+// Registro del servicio de conexión y repositorios
 builder.Services.AddSingleton<ConexionBD>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<RepositorioUsuario>();
+
+// Configuración de autenticación por Cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login";   // redirige si no está logueado
+        options.LogoutPath = "/Auth/Logout"; // ruta para cerrar sesión
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // expira en 30 minutos
+    });
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
+app.UseStaticFiles();  //importante si usás CSS/JS
+
 app.UseRouting();
 
-app.UseAuthorization();
-
-app.MapStaticAssets();
+// Orden correcto de middlewares
+app.UseAuthentication(); // primero autenticación
+app.UseAuthorization();  // después autorización
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
