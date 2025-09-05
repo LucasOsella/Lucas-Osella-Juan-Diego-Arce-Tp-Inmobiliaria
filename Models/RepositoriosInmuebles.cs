@@ -19,7 +19,7 @@ public class RepositoriosInmuebles
         using (var connection = conexionBD.GetConnection())
         {
             var query = @"SELECT id, direccion, uso, ambientes, coordenadas, precio, estado, id_propietario, id_tipo 
-                          FROM inmueble";
+                        FROM inmueble";
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
                 connection.Open();
@@ -51,7 +51,7 @@ public class RepositoriosInmuebles
         using (var connection = conexionBD.GetConnection())
         {
             var query = @"SELECT id, direccion, uso, ambientes, coordenadas, precio, estado, id_propietario, id_tipo 
-                          FROM inmueble WHERE id=@id";
+                        FROM inmueble WHERE id=@id";
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
@@ -83,7 +83,7 @@ public class RepositoriosInmuebles
     public void AgregarInmueble(Inmueble inmueble)
     {
         var query = @"INSERT INTO inmueble (direccion, uso, ambientes, coordenadas, precio, estado, id_propietario, id_tipo) 
-                      VALUES (@direccion, @uso, @ambientes, @coordenadas, @precio, @estado, @id_propietario, @id_tipo)";
+                    VALUES (@direccion, @uso, @ambientes, @coordenadas, @precio, @estado, @id_propietario, @id_tipo)";
         using (var connection = conexionBD.GetConnection())
         {
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
@@ -107,9 +107,9 @@ public class RepositoriosInmuebles
     public void EditarInmueble(Inmueble inmueble)
     {
         var query = @"UPDATE inmueble 
-                      SET direccion=@direccion, uso=@uso, ambientes=@ambientes, coordenadas=@coordenadas, 
-                          precio=@precio, estado=@estado, id_propietario=@id_propietario, id_tipo=@id_tipo
-                      WHERE id=@id";
+                    SET direccion=@direccion, uso=@uso, ambientes=@ambientes, coordenadas=@coordenadas, 
+                        precio=@precio, estado=@estado, id_propietario=@id_propietario, id_tipo=@id_tipo
+                    WHERE id=@id";
         using (var connection = conexionBD.GetConnection())
         {
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))

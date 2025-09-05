@@ -39,6 +39,10 @@ public class InmueblesController : Controller
     public IActionResult EditarInmueble(int id)
     {
         var inmueble = repo.ObtenerInmueble(id);
+        var propietarios = repoPropietario.ObtenerPropietarios();
+        ViewBag.Propietarios = propietarios;
+        var tipos = repoTipoInmueble.ObtenerTipoInmuebles();
+        ViewBag.Tipos = tipos;
         return View(inmueble); // Views/Inmuebles/EditarInmueble.cshtml
     }
 
