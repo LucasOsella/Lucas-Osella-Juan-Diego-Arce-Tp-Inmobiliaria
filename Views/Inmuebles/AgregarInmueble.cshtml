@@ -67,7 +67,13 @@
 
     <div class="mb-3">
         <label asp-for="IdTipo" class="form-label">Tipo (ID)</label>
-        <input asp-for="IdTipo" type="number" class="form-control" />
+          <select asp-for="IdTipo" class="form-select" id="IdTipo">
+            <option value="">-- Seleccione un propietario --</option>
+            @foreach (var p in ViewBag.Tipos)
+            {
+                <option value="@p.Id">@p.Nombre</option>
+            }
+        </select>
         <span asp-validation-for="IdTipo" class="text-danger"></span>
     </div>
 

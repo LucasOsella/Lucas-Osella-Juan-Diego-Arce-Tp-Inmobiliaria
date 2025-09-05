@@ -8,12 +8,14 @@ public class InmueblesController : Controller
     private readonly ILogger<InmueblesController> _logger;
     private RepositoriosInmuebles repo;
      RepositoriosPropietario repoPropietario;
+     RepositoriosTipoInmuebles repoTipoInmueble;
 
     public InmueblesController(ILogger<InmueblesController> logger, ConexionBD conexionBD)
     {
         _logger = logger;
         repo = new RepositoriosInmuebles(conexionBD);
         repoPropietario = new RepositoriosPropietario(conexionBD);
+        repoTipoInmueble = new RepositoriosTipoInmuebles(conexionBD);
     }
 
     // Lista de inmuebles
@@ -28,6 +30,8 @@ public class InmueblesController : Controller
     {
         var propietarios = repoPropietario.ObtenerPropietarios();
         ViewBag.Propietarios = propietarios;
+        var tipos = repoTipoInmueble.ObtenerTipoInmuebles();
+        ViewBag.Tipos = tipos;
         return View(); // Views/Inmuebles/AgregarInmueble.cshtml
     }
 

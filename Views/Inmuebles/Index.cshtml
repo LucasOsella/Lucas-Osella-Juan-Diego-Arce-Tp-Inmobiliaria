@@ -7,10 +7,13 @@
 <div class="text-center">
     <h1 class="display-4">Lista de Inmuebles</h1>
 </div>
+<div class="mb-3">
+     <a type="button" class="btn btn-success mb-3" asp-action="AgregarInmueble">Agregar Inmueble</a>
+      <a type="button" class="btn btn-success mb-3" asp-controller="TipoInmueble" asp-action="index">Tipos de inmuebles</a>
+</div>
 
 <table class="table table-striped table-hover">
-    <a type="button" class="btn btn-success mb-3" asp-action="AgregarInmueble">Agregar Inmueble</a>
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>ID</th>
             <th>Dirección</th>
@@ -38,8 +41,12 @@
             <td>@i.IdPropietario</td>
             <td>@i.IdTipo</td>
             <td>
-                <a type="button" class="btn btn-success btn-sm" asp-action="EditarInmueble" asp-route-id="@i.Id">Editar</a>
-                <a type="button" class="btn btn-danger btn-sm" asp-action="EliminarInmueble" asp-route-id="@i.Id">Eliminar</a>
+                <a class="btn btn-success btn-sm me-1" asp-action="EditarInmueble" asp-route-id="@i.Id">
+                    <i class="bi bi-pencil-square"></i> Editar
+                </a>
+                <a class="btn btn-danger btn-sm" asp-action="EliminarInmueble" asp-route-id="@i.Id">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
             </td>
         </tr>
     }

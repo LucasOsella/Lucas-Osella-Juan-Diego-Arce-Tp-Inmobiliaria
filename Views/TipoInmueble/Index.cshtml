@@ -1,23 +1,19 @@
-﻿@model IEnumerable<Tp_inmobiliaria.Models.Inquilinos>
+﻿@model IEnumerable<Tp_inmobiliaria.Models.Tipo_Inmueble>
 @{
-    ViewData["Title"] = "Inquilinos";
+    ViewData["Title"] = "Propietario";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Lista de Inquilinos</h1>
+    <h1 class="display-4">Lista de Tipo de Inmuebles</h1>
 </div>
 <div class="mb-3">
-    <a type="button" class="btn btn-success" asp-action="AgregarInquilino">Agregar Inquilino</a>
+    <a type="button" class="btn btn-success" asp-action="AgregarTipoInmueble">Agregar Tipo de Inmueble</a>
 </div>
-<table class="table table-striped,  table table-hover"> 
+<table class="table table-striped, table table-hover">
     <thead class="table-dark">
         <tr>
             <th>ID</th>
-            <th>DNI</th>
             <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Email</th>
-            <th>Dirección</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -26,11 +22,7 @@
     {
         <tr>
             <td>@p.Id</td>
-            <td>@p.Dni</td>
             <td>@p.Nombre</td>
-            <td>@p.Telefono</td>
-            <td>@p.Email</td>
-            <td>@p.Direccion</td>
             <td>
                 <a class="btn btn-success btn-sm me-1" asp-action="EditarInmueble" asp-route-id="@p.Id">
                     <i class="bi bi-pencil-square"></i> Editar
