@@ -4,7 +4,6 @@ using Tp_inmobiliaria.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 // Registro del servicio de conexión y repositorios
@@ -30,11 +29,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();  //importante si usás CSS/JS
+app.UseStaticFiles();  
 
 app.UseRouting();
 
-// Orden correcto de middlewares
+
 app.UseAuthentication(); // primero autenticación
 app.UseAuthorization();  // después autorización
 
