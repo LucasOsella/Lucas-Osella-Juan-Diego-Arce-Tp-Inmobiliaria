@@ -111,7 +111,7 @@ public class RepositorioContratos
     }
 
     // Editar un contrato
-    public void Editar(Contratos contrato)
+    public void GuardarEditarContrato(Contratos contrato)
     {
         var query = @"UPDATE contrato 
                     SET id_inquilino=@id_inquilino, id_inmueble=@id_inmueble, fecha_inicio=@fecha_inicio, fecha_fin=@fecha_fin, 

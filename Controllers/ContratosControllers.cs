@@ -41,6 +41,12 @@ public class ContratosController : Controller
 
     public IActionResult EditarContrato(int id)
     {
+        var inmuebles = repoInmuebles.ObtenerInmuebles();
+        ViewBag.Inmuebles = inmuebles;
+        var inquilinos = repoInquilinos.ObtenerInquilinos();
+        ViewBag.Inquilinos = inquilinos;
+        var usuarios = repoUsuarios.ObtenerUsuarios();
+        ViewBag.Usuarios = usuarios;
         var contrato = repo.ObtenerPorId(id);
         return View(contrato);// Busca Views/Contrato/editarContrato.cshtml
     }
@@ -55,12 +61,20 @@ public class ContratosController : Controller
         repo.AgregarContrato(contrato);
         return RedirectToAction("Index");
     }
-
     public IActionResult GuardarEdicionContrato(Contratos contrato)
+{
+    if (!ModelState.IsValid)
     {
-        repo.Editar(contrato);
-        return RedirectToAction("Index");
+        ViewBag.Inmuebles = repoInmuebles.ObtenerInmuebles();
+        ViewBag.Inquilinos = repoInquilinos.ObtenerInquilinos();
+        ViewBag.Usuarios = repoUsuarios.ObtenerUsuarios();
+        return View("EditarContrato", contrato);
     }
+
+    repo.GuardarEditarContrato(contrato);
+    return RedirectToAction("Index");
+}
+
     public IActionResult EliminarContrato(int id)
     {
         repo.Eliminar(id);
