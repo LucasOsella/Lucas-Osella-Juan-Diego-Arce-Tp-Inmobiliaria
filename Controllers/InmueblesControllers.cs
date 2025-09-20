@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Controllers;
-
 public class InmueblesController : Controller
 {
     private readonly ILogger<InmueblesController> _logger;

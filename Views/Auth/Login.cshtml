@@ -1,8 +1,13 @@
 @model IEnumerable<Tp_inmobiliaria.Models.Usuario>
 @{
     ViewData["Title"] = "Login";
+    ViewData["OcultarHeader"] = true;
 }
 
+
+<div class="text-center my-4">
+    <img src="~/images/CLEVER.png" alt="Logo CLEVER" class="img-fluid" style="max-height: 100px;">
+</div>
 <h2>Iniciar sesión</h2>
 
 <form asp-action="Login" method="post">

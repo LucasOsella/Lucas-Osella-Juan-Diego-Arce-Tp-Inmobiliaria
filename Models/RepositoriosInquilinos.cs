@@ -2,9 +2,10 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Models;
-
+[Authorize]
 public class RepositoriosInquilinos
 
 {

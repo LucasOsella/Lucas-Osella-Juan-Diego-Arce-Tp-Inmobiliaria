@@ -7,6 +7,7 @@
 <h2 class="mb-4">Editar Inmueble</h2>
 
 <form asp-action="GuardarInmueble" method="post">
+    <input type="hidden" asp-for="Id" />
     <div class="mb-3">
         <label asp-for="Direccion" class="form-label"></label>
         <input asp-for="Direccion" class="form-control" />
@@ -67,7 +68,7 @@
 
     <div class="mb-3">
         <label asp-for="IdTipo" class="form-label">Tipo (ID)</label>
-          <select asp-for="IdTipo" class="form-select" id="IdTipo">
+        <select asp-for="IdTipo" class="form-select" id="IdTipo">
             <option value="">-- Seleccione un propietario --</option>
             @foreach (var p in ViewBag.Tipos)
             {

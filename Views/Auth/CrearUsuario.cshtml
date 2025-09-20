@@ -1,0 +1,45 @@
+@model Tp_inmobiliaria.Models.Usuario
+
+@{
+    ViewData["Title"] = "Agregar Usuario";
+}
+<h2 class="mb-4">Agregar Usuario</h2>
+
+<form asp-action="CrearUsuario" method="post">
+    <div class="mb-3">
+        <label asp-for="NombreUsuario" class="form-label"></label>
+        <input asp-for="NombreUsuario" class="form-control" />
+        <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ApellidoUsuario" class="form-label"></label>
+        <input asp-for="ApellidoUsuario" class="form-control" />
+        <span asp-validation-for="ApellidoUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdTipoUsuario" class="form-label">Rol Usuario</label>
+        <select asp-for="IdTipoUsuario" class="form-select">
+            <option value="">-- Seleccione Rol --</option>
+            <option value="1">Admin</option>
+            <option value="2">Empleado</option>
+        </select>
+        <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+    <a asp-controller="Auth" asp-action="ListaUsuario" class="btn btn-secondary">Cancelar</a>
+</form>

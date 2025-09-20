@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Models;
-
+[Authorize]
 public class RepositorioContratos
 {
     private readonly ConexionBD conexionBD;

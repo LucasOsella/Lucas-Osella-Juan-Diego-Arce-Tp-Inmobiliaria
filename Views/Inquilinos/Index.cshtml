@@ -32,12 +32,18 @@
             <td>@p.Email</td>
             <td>@p.Direccion</td>
             <td>
+            @if (User.IsInRole("ADMIN") || User.IsInRole("EMPLEADO"))
+                {
                 <a class="btn btn-success btn-sm me-1" asp-action="EditarInquilino" asp-route-id="@p.Id">
                     <i class="bi bi-pencil-square"></i> Editar
-                </a>
+                </a> 
+                }              
+            @if (User.IsInRole("ADMIN"))
+                {
                 <a class="btn btn-danger btn-sm" asp-action="EliminarInquilino" asp-route-id="@p.Id">
                     <i class="bi bi-trash"></i> Eliminar
                 </a>
+                }
             </td>
         </tr>
     }

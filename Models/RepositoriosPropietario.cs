@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Models;
-
+[Authorize]
 public class RepositoriosPropietario
 {
     //string ConnetionString = "Server=localhost;User=root;Password=;Database=inmobiliaria-lucasosella;SslMode=none;";

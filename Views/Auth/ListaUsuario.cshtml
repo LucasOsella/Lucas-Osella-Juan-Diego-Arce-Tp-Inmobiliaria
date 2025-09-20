@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Lista de Usuarios"; ; // Asumiendo que el modelo es una lista de usuarios
+}
+<h2 class="mb-4">Lista de Usuarios</h2>
+<div>
+    <a asp-action="CrearUsuario" class="btn btn-primary mb-3">Agregar Usuario</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.NombreUsuario</td>
+                <td>@usuario.ApellidoUsuario</td>
+                <td>@usuario.Email</td>
+                <td>@usuario.RolUsuario</td>
+                <td>
+                    <a asp-action="EditarUsuario" asp-route-id="@usuario.Id" class="btn btn-sm btn-primary">Editar</a>
+                    <!-- Botón Eliminar con confirmación -->
+                    <form asp-action="EliminarUsuario" asp-route-id="@usuario.Id" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>

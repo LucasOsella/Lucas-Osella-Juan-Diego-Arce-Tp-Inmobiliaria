@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
-
 public class PropietariosController : Controller
 {
     private readonly ILogger<PropietariosController> _logger;

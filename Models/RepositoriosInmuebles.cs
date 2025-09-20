@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Controllers;
+using Microsoft.AspNetCore.Authorization;
 namespace Tp_inmobiliaria.Models;
-
+[Authorize]
 public class RepositoriosInmuebles
 {
     private readonly ConexionBD conexionBD;
@@ -12,7 +13,7 @@ public class RepositoriosInmuebles
         this.conexionBD = conexionBD;
     }
 
-    // 🔹 Obtener lista de inmuebles
+    //Obtener lista de inmuebles
     public List<Inmueble> ObtenerInmuebles()
     {
         List<Inmueble> inmuebles = new List<Inmueble>();
@@ -44,7 +45,7 @@ public class RepositoriosInmuebles
         return inmuebles;
     }
 
-    // 🔹 Obtener un inmueble por id
+    //Obtener un inmueble por id
     public Inmueble ObtenerInmueble(int id)
     {
         Inmueble inmueble = null;
@@ -79,7 +80,7 @@ public class RepositoriosInmuebles
         return inmueble;
     }
 
-    // 🔹 Agregar un inmueble
+    //Agregar un inmueble
     public void AgregarInmueble(Inmueble inmueble)
     {
         var query = @"INSERT INTO inmueble (direccion, uso, ambientes, coordenadas, precio, estado, id_propietario, id_tipo) 
@@ -103,7 +104,7 @@ public class RepositoriosInmuebles
         }
     }
 
-    // 🔹 Editar un inmueble
+    //Editar un inmueble
     public void EditarInmueble(Inmueble inmueble)
     {
         var query = @"UPDATE inmueble 
@@ -130,7 +131,7 @@ public class RepositoriosInmuebles
         }
     }
 
-    // 🔹 Eliminar un inmueble
+    //Eliminar un inmueble
     public void EliminarInmueble(int id)
     {
         var query = "DELETE FROM inmueble WHERE id=@id";

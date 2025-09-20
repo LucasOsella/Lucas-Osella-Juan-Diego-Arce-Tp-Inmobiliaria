@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
 

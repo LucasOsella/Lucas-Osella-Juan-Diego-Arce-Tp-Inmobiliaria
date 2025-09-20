@@ -37,9 +37,11 @@
                 <a class="btn btn-primary btn-sm me-1" asp-action="EditarPropietario" asp-route-id="@p.Id">
                     <i class="bi bi-pencil-square"></i> Editar
                 </a>
+                @if(User.IsInRole("ADMIN")){
                 <a class="btn btn-danger btn-sm" asp-action="EliminarPropietario" asp-route-id="@p.Id">
                     <i class="bi bi-trash"></i> Eliminar
                 </a>
+                }
             </td>
         </tr>
     }
