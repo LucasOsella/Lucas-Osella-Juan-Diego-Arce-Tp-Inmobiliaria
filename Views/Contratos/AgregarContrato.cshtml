@@ -51,7 +51,7 @@
 
     <div class="mb-3">
         <label asp-for="id_creador" class="form-label">Creador</label>
-        <select asp-for="id_creador" class="form-select" id="InquilinoId">
+        <select asp-for="id_creador" class="form-select" id="UsuariosId">
             <option value="">-- Seleccione un Usuario --</option>
             @foreach (var u in ViewBag.usuarios)
             {
@@ -62,8 +62,8 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="id_finalizador" class="form-label">Creador</label>
-        <select asp-for="id_finalizador" class="form-select" id="InquilinoId">
+        <label asp-for="id_finalizador" class="form-label">Finalizador</label>
+        <select asp-for="id_finalizador" class="form-select" id="UsuariosId">
             <option value="">-- Seleccione un Usuario --</option>
             @foreach (var u in ViewBag.usuarios)
             {

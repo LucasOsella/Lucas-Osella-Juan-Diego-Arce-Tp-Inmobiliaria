@@ -133,7 +133,9 @@ public class RepositorioContratos
                         fecha_fin = reader.GetDateTime("fecha_fin"),
                         monto_mensual = reader.GetDecimal("monto_mensual"),
                         id_creador = reader.GetInt32("id_usuario_creador"),
-                        id_finalizador = reader.GetInt32("id_usuario_finalizador")
+                        id_finalizador = reader.IsDBNull(reader.GetOrdinal("id_usuario_finalizador"))
+                                        ? null
+                                        : reader.GetInt32("id_usuario_finalizador")
                     };
                 }
             }
