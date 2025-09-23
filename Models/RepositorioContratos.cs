@@ -5,6 +5,7 @@ using Tp_inmobiliaria.Controllers;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Models;
+
 [Authorize]
 public class RepositorioContratos
 {
@@ -22,9 +23,20 @@ public class RepositorioContratos
 
         using (var connection = conexionBD.GetConnection())
         {
-            var query = @"SELECT id, id_inquilino, id_inmueble, fecha_inicio, fecha_fin, monto_mensual, 
-                                id_usuario_creador, id_usuario_finalizador 
-                        FROM contrato";
+            var query = @"SELECT c.id, 
+            c.id_inquilino, i.nombre AS nombre_inquilino,
+            c.id_inmueble, im.direccion AS direccion_inmueble,
+            c.fecha_inicio, c.fecha_fin, c.monto_mensual, 
+            c.id_usuario_creador, 
+            u1.nombre_usuario AS nombre_creador, u1.apellido_usuario AS apellido_creador,
+            c.id_usuario_finalizador, 
+            u2.nombre_usuario AS nombre_finalizador, u2.apellido_usuario AS apellido_finalizador
+        FROM contrato c
+        INNER JOIN inquilino i ON c.id_inquilino = i.id
+        INNER JOIN inmueble im ON c.id_inmueble = im.id
+        LEFT JOIN usuario u1 ON c.id_usuario_creador = u1.id
+        LEFT JOIN usuario u2 ON c.id_usuario_finalizador = u2.id;
+        ";
 
             using (var command = new MySqlCommand(query, connection))
             {
@@ -36,12 +48,30 @@ public class RepositorioContratos
                     {
                         id = reader.GetInt32("id"),
                         id_inquilino = reader.GetInt32("id_inquilino"),
+                        NombreInquilino = reader.GetString("nombre_inquilino"),
                         id_inmueble = reader.GetInt32("id_inmueble"),
+                        DireccionInmueble = reader.GetString("direccion_inmueble"),
                         fecha_inicio = reader.GetDateTime("fecha_inicio"),
                         fecha_fin = reader.GetDateTime("fecha_fin"),
-                        monto_mensual = reader.GetDouble("monto_mensual"),
-                        id_creador = reader.GetInt32("id_usuario_creador"),
-                        id_finalizador = reader.GetInt32("id_usuario_finalizador")
+                        monto_mensual = reader.GetDecimal("monto_mensual"),
+                        id_creador = reader.IsDBNull(reader.GetOrdinal("id_usuario_creador"))
+                                        ? null
+                                        : reader.GetInt32("id_usuario_creador"),
+                        NombreCreador = reader.IsDBNull(reader.GetOrdinal("nombre_creador"))
+                                        ? ""
+                                        : reader.GetString("nombre_creador"),
+                        ApellidoCreador = reader.IsDBNull(reader.GetOrdinal("apellido_creador"))
+                                        ? ""
+                                        : reader.GetString("apellido_creador"),
+                        id_finalizador = reader.IsDBNull(reader.GetOrdinal("id_usuario_finalizador"))
+                                        ? null
+                                        : reader.GetInt32("id_usuario_finalizador"),
+                        NombreFinalizador = reader.IsDBNull(reader.GetOrdinal("nombre_finalizador"))
+                                        ? ""
+                                        : reader.GetString("nombre_finalizador"),
+                        ApellidoFinalizador = reader.IsDBNull(reader.GetOrdinal("apellido_finalizador"))
+                                        ? ""
+                                        : reader.GetString("apellido_finalizador"),
                     });
                 }
             }
@@ -101,7 +131,7 @@ public class RepositorioContratos
                         id_inmueble = reader.GetInt32("id_inmueble"),
                         fecha_inicio = reader.GetDateTime("fecha_inicio"),
                         fecha_fin = reader.GetDateTime("fecha_fin"),
-                        monto_mensual = reader.GetDouble("monto_mensual"),
+                        monto_mensual = reader.GetDecimal("monto_mensual"),
                         id_creador = reader.GetInt32("id_usuario_creador"),
                         id_finalizador = reader.GetInt32("id_usuario_finalizador")
                     };

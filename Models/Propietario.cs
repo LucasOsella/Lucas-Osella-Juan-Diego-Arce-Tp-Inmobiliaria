@@ -23,7 +23,7 @@ public class Propietario
     public string Apellido { get; set; } = "";
 
     [Required(ErrorMessage = "El Teléfono es obligatorio")]
-    [Phone(ErrorMessage = "Debe ingresar un número válido")]    
+    [Phone(ErrorMessage = "Debe ingresar un número válido")]
     public string Telefono { get; set; } = "";
 
     [Required(ErrorMessage = "El Email es obligatorio")]

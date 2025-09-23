@@ -7,7 +7,7 @@ namespace Tp_inmobiliaria.Models
 {
     using System.ComponentModel.DataAnnotations;
 
-public class Contratos
+    public class Contratos
     {
         public int id { get; set; } // este es PK, no suele necesitar validación
 
@@ -27,13 +27,19 @@ public class Contratos
 
         [Required(ErrorMessage = "El monto mensual es obligatorio.")]
         [Range(1, double.MaxValue, ErrorMessage = "El monto mensual debe ser mayor a 0.")]
-        public double monto_mensual { get; set; }
+        public decimal monto_mensual { get; set; }
 
         [Required(ErrorMessage = "Debe registrarse quién creó el contrato.")]
-        public int id_creador { get; set; }
+        public int? id_creador { get; set; }
 
         // este puede ser null hasta que alguien finalice el contrato
         public int? id_finalizador { get; set; }
-    }
+        public string? NombreInquilino { get; set; }
+        public string? DireccionInmueble { get; set; }
+        public string? NombreCreador { get; set; }
+        public string? ApellidoCreador { get; set; }
+        public string? NombreFinalizador { get; set; }
+        public string? ApellidoFinalizador { get; set; }
 
+    }
 }

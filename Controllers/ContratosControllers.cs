@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
+
 public class ContratosController : Controller
 {
     private readonly ILogger<ContratosController> _logger;
@@ -62,18 +63,18 @@ public class ContratosController : Controller
         return RedirectToAction("Index");
     }
     public IActionResult GuardarEdicionContrato(Contratos contrato)
-{
-    if (!ModelState.IsValid)
     {
-        ViewBag.Inmuebles = repoInmuebles.ObtenerInmuebles();
-        ViewBag.Inquilinos = repoInquilinos.ObtenerInquilinos();
-        ViewBag.Usuarios = repoUsuarios.ObtenerUsuarios();
-        return View("EditarContrato", contrato);
-    }
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Inmuebles = repoInmuebles.ObtenerInmuebles();
+            ViewBag.Inquilinos = repoInquilinos.ObtenerInquilinos();
+            ViewBag.Usuarios = repoUsuarios.ObtenerUsuarios();
+            return View("EditarContrato", contrato);
+        }
 
-    repo.GuardarEditarContrato(contrato);
-    return RedirectToAction("Index");
-}
+        repo.GuardarEditarContrato(contrato);
+        return RedirectToAction("Index");
+    }
 
     public IActionResult EliminarContrato(int id)
     {

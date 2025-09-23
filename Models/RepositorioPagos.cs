@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using MySql.Data.MySqlClient;
 using Tp_inmobiliaria.Controllers;
 namespace Tp_inmobiliaria.Models;
+
 [Authorize]
 public class RepositorioPagos
 {
@@ -21,7 +22,7 @@ public class RepositorioPagos
         {
             var query = @"SELECT id, id_contrato, numero_pago, fecha_pago, detalle, importe, 
                                 estado, id_usuario_creador, id_usuario_finalizador 
-                          FROM pago";
+                        FROM pago";
 
             using (var command = new MySqlCommand(query, connection))
             {
