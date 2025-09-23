@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-09-2025 a las 05:40:03
+-- Tiempo de generación: 23-09-2025 a las 05:56:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,7 +35,7 @@ CREATE TABLE `contrato` (
   `fecha_fin` date NOT NULL,
   `monto_mensual` decimal(10,0) NOT NULL,
   `id_usuario_creador` int(11) NOT NULL,
-  `id_usuario_finalizador` int(11) NOT NULL
+  `id_usuario_finalizador` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -44,7 +44,8 @@ CREATE TABLE `contrato` (
 
 INSERT INTO `contrato` (`id`, `id_inquilino`, `id_inmueble`, `fecha_inicio`, `fecha_fin`, `monto_mensual`, `id_usuario_creador`, `id_usuario_finalizador`) VALUES
 (2, 1, 1, '2025-09-13', '2025-12-13', 12000, 3, 3),
-(4, 4, 2, '2025-09-23', '2025-09-23', 123123, 3, 12);
+(4, 4, 2, '2025-09-23', '2025-09-23', 123123, 3, 12),
+(6, 3, 2, '2025-10-09', '2025-11-14', 123431, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -286,7 +287,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `inmueble`
