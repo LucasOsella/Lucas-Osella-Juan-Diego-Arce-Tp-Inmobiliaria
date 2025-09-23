@@ -13,11 +13,11 @@ public class RepositoriosTipoInmuebles
     private readonly ConexionBD conexionBD;
 
     public RepositoriosTipoInmuebles(ConexionBD conexionBD)
-    { 
+    {
         this.conexionBD = conexionBD;
     }
 
-    
+
 
     public List<Tipo_Inmueble> ObtenerTipoInmuebles()
     {
@@ -64,8 +64,9 @@ public class RepositoriosTipoInmuebles
 
     public Tipo_Inmueble ObtenerTipo(int id)
     {
-        
-        { var query = "SELECT id, nombre FROM tipo_inmueble WHERE id=@id";
+
+        {
+            var query = "SELECT id, nombre FROM tipo_inmueble WHERE id=@id";
             Tipo_Inmueble tipo_inmueble = null;
 
             using (var connection = conexionBD.GetConnection())
@@ -98,7 +99,7 @@ public class RepositoriosTipoInmuebles
         //using (MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ConnetionString))
         {
             using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
-            {      
+            {
                 command.Parameters.AddWithValue("@nombre", tipo_inmueble.Nombre);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -120,6 +121,5 @@ public class RepositoriosTipoInmuebles
             }
         }
     }
-    
     
 }

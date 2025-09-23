@@ -104,7 +104,7 @@ public class RepositorioUsuario
                 command.Parameters.AddWithValue("@Email", usuario.Email);
                 command.Parameters.AddWithValue("@Password", usuario.Password);
                 command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
-
+                
                 connection.Open();
                 command.ExecuteNonQuery();
             }
