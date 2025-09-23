@@ -33,6 +33,7 @@
 
     <!-- Sección opcional para ampliar -->
     <div class="row mt-4">
+        <!-- Inmuebles -->
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
@@ -44,6 +45,7 @@
             </div>
         </div>
 
+        <!-- Contratos -->
         <div class="col-md-6 mb-4">
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
@@ -55,28 +57,40 @@
             </div>
         </div>
 
+        <!-- Pagos -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow rounded-3">
+                <div class="card-body text-center">
+                    <h3><i class="bi bi-cash-coin text-warning"></i></h3>
+                    <h4 class="card-title">Pagos</h4>
+                    <p class="card-text">Registra, consulta y administra los pagos de los contratos.</p>
+                    <a asp-controller="Pagos" asp-action="Index" class="btn btn-warning">Ir a Pagos</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Usuarios o Perfil -->
         <div class="col-md-6 mb-4">
         @if(User.IsInRole("ADMIN")){            
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
-                    <h3><i class="bi bi-person-fill text-success"></i></h3>
+                    <h3><i class="bi bi-people-fill text-success"></i></h3>
                     <h4 class="card-title">Usuarios</h4>
                     <p class="card-text">Consulta y administra los Usuarios</p>
                     <a asp-controller="Auth" asp-action="ListaUsuario" class="btn btn-success">Gestionar Usuarios</a>
                 </div>
             </div>
-        }@if(User.IsInRole("EMPLEADO")){
+        } 
+        @if(User.IsInRole("EMPLEADO")){
             <div class="card shadow rounded-3">
                 <div class="card-body text-center">
-                    <h3><i class="bi bi-person-fill text-success"></i></h3>
-                    <h4 class="card-title">Pefil</h4>
+                    <h3><i class="bi bi-person-badge text-primary"></i></h3>
+                    <h4 class="card-title">Perfil</h4>
                     <p class="card-text">Gestiona tu perfil</p>
                     <a asp-controller="Auth" asp-action="EditarUsuario" asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" class="btn btn-primary">Mi Perfil</a>
                 </div>
             </div>
-            }
+        }
         </div>
-
     </div>
 </div>
-

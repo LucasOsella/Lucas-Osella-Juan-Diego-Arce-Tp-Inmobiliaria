@@ -1,0 +1,46 @@
+@model IEnumerable<Tp_inmobiliaria.Models.Pago>
+
+@{
+    ViewData["Title"] = "Pagos";
+}
+
+<h2 class="mb-4">Lista de Pagos</h2>
+
+<a asp-action="AgregarPago" class="btn btn-primary mb-3">Agregar Pago</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Contrato</th>
+            <th>Número Pago</th>
+            <th>Fecha</th>
+            <th>Detalle</th>
+            <th>Importe</th>
+            <th>Estado</th>
+            <th>Creador</th>
+            <th>Finalizador</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pago in Model)
+        {
+            <tr>
+                <td>@pago.id</td>
+                <td>@pago.id_contrato</td>
+                <td>@pago.numero_pago</td>
+                <td>@pago.fecha_pago.ToString("dd/MM/yyyy")</td>
+                <td>@pago.detalle</td>
+                <td>$@pago.importe</td>
+                <td>@pago.estado</td>
+                <td>@pago.id_usuario_creador</td>
+                <td>@pago.id_usuario_finalizador</td>
+                <td>
+                    <a asp-action="EditarPago" asp-route-id="@pago.id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="EliminarPago" asp-route-id="@pago.id" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este pago?');">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
