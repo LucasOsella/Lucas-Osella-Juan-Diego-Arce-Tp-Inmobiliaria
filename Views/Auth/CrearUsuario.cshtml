@@ -5,7 +5,7 @@
 }
 <h2 class="mb-4">Agregar Usuario</h2>
 
-<form asp-action="CrearUsuario" method="post">
+<form asp-action="CrearUsuario" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="NombreUsuario" class="form-label"></label>
         <input asp-for="NombreUsuario" class="form-control" />
@@ -40,6 +40,13 @@
         <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
     </div>
 
+    <div class="mb-3">
+    <label for="Foto" class="form-label">Foto de perfil</label>
+    <input type="file" name="FotoArchivo" asp-for="foto" class="form-control" />
+    </div>
+
     <button type="submit" class="btn btn-primary">Guardar Usuario</button>
     <a asp-controller="Auth" asp-action="ListaUsuario" class="btn btn-secondary">Cancelar</a>
+
+
 </form>

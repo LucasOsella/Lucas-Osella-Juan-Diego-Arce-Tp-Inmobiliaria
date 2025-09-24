@@ -58,8 +58,8 @@
 
                             <!-- Dropdown Inquilinos -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="inquilinosDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="inquilinosDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Inquilinos
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="inquilinosDropdown">
@@ -85,24 +85,35 @@
                             </li>
                             <!-- Dropdown Contratos -->
                             <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-white" href="#" id="contratosDropdown"
-                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Contratos
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="contratosDropdown">
-                                        <li><a class="dropdown-item  link-opacity-100-hover" asp-controller="Contratos"
-                                                asp-action="Index">Ver Contratos</a></li>
-                                        <li><a class="dropdown-item  link-opacity-100-hover" asp-controller="Contratos"
-                                                asp-action="AgregarContrato">Agregar Contrato</a></li>
-                                    </ul>
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="contratosDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Contratos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="contratosDropdown">
+                                    <li><a class="dropdown-item  link-opacity-100-hover" asp-controller="Contratos"
+                                            asp-action="Index">Ver Contratos</a></li>
+                                    <li><a class="dropdown-item  link-opacity-100-hover" asp-controller="Contratos"
+                                            asp-action="AgregarContrato">Agregar Contrato</a></li>
+                                </ul>
                             </li>
                             <!-- Dropdown Usuarios -->
                             <li class="nav-item dropdown ms-auto">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#"
                                     id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <!-- Foto de usuario -->
-                                    <img src="@User.FindFirst("fotoUsuario")?.Value" alt="Foto de usuario"
-                                        class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                    @{
+                                        var foto = User.FindFirst("foto")?.Value;
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(foto))
+                                    {
+                                        <img src="@Url.Content(foto)" class="rounded-circle border border-light" alt="Usuario"
+                                            width="40" height="40" />
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-user-circle fa-2x text-light"></i>
+                                    }
 
                                     <!-- Nombre -->
                                     <span class="fw-bold">@User.Identity.Name</span>

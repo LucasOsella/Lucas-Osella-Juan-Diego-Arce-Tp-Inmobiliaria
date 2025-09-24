@@ -24,7 +24,7 @@ public class RepositorioUsuario
 
         var query = @"SELECT u.id, u.nombre_usuario, u.apellido_usuario, 
                         u.email, u.password, u.id_tipo_usuario, 
-                        t.rol_usuario
+                        t.rol_usuario, u.foto
                 FROM usuario u
                 INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id_tipo_usuario
                 WHERE u.email = @Email AND u.activo = 1";
@@ -47,7 +47,8 @@ public class RepositorioUsuario
                         Email = reader.GetString("email"),
                         Password = reader.GetString("password"), // hash guardado
                         IdTipoUsuario = reader.GetInt32("id_tipo_usuario"),
-                        RolUsuario = reader.GetString("rol_usuario")
+                        RolUsuario = reader.GetString("rol_usuario"),
+                        foto = reader.GetString("foto")
                     };
                 }
             }
@@ -92,24 +93,26 @@ public class RepositorioUsuario
     }
     public void CrearUsuario(Usuario usuario)
     {
-        using (var connection = conexionBD.GetConnection())
+    using (var connection = conexionBD.GetConnection())
+    {
+        var query = @"INSERT INTO usuario 
+            (nombre_usuario, apellido_usuario, email, password, id_tipo_usuario, activo, foto) 
+            VALUES (@NombreUsuario, @ApellidoUsuario, @Email, @Password, @IdTipoUsuario, 1, @Foto)";
+
+        using (var command = new MySqlCommand(query, connection))
         {
-            var query = @"INSERT INTO usuario (nombre_usuario, apellido_usuario, email, password, id_tipo_usuario, activo) 
-                            VALUES (@NombreUsuario, @ApellidoUsuario, @Email, @Password, @IdTipoUsuario, 1)";
+            command.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
+            command.Parameters.AddWithValue("@ApellidoUsuario", usuario.ApellidoUsuario);
+            command.Parameters.AddWithValue("@Email", usuario.Email);
+            command.Parameters.AddWithValue("@Password", usuario.Password);
+            command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
+            command.Parameters.AddWithValue("@Foto", usuario.foto ?? (object)DBNull.Value);
 
-            using (var command = new MySqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
-                command.Parameters.AddWithValue("@ApellidoUsuario", usuario.ApellidoUsuario);
-                command.Parameters.AddWithValue("@Email", usuario.Email);
-                command.Parameters.AddWithValue("@Password", usuario.Password);
-                command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
-
-                connection.Open();
-                command.ExecuteNonQuery();
-            }
+            connection.Open();
+            command.ExecuteNonQuery();
         }
     }
+}
     public Usuario ObtenerUsuarioPorId(int id)
     {
         Usuario usuario = null;
@@ -144,7 +147,7 @@ public class RepositorioUsuario
         }
         return usuario;
     }
-
+    
     public void EditarUsuario(Usuario usuario)
     {
         using (var connection = conexionBD.GetConnection())

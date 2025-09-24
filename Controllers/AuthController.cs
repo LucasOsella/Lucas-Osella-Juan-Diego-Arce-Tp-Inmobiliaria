@@ -59,7 +59,7 @@ namespace Tp_inmobiliaria.Controllers
                 new Claim(ClaimTypes.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, usuario.RolUsuario.ToString()), // Asumiendo que RolUsuario es un entero
                 new Claim("UserId", usuario.Id.ToString()),
-                new Claim("fotoUsuario", usuario.fotoUsuario ?? string.Empty)
+                new Claim("foto", usuario.foto ?? "/images/usuarios/default.png")
             };
 
             // 5. Generar la identidad
@@ -90,8 +90,23 @@ namespace Tp_inmobiliaria.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario(Usuario usuario)
-        {
+        public async Task<IActionResult> CrearUsuario(Usuario usuario, IFormFile FotoArchivo)
+        { if (FotoArchivo != null && FotoArchivo.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(FotoArchivo.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/usuarios", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await FotoArchivo.CopyToAsync(stream);
+                }
+
+                usuario.foto = "/images/usuarios/" + fileName; // se guarda la ruta en la BD
+            } 
+
+        // Ruta relativa para guardar en BD
+        usuario.foto = "/images/usuarios/" + FotoArchivo.FileName;
+    
                 // Hashear la contraseña antes de guardarla
                 var hasher = new PasswordHasher<Usuario>();
                 usuario.Password = hasher.HashPassword(usuario, usuario.Password);

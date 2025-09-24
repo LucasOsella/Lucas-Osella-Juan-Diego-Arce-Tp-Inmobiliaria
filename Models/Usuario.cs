@@ -20,6 +20,6 @@ namespace Tp_inmobiliaria.Models
         public int IdTipoUsuario { get; set; }
         public string RolUsuario { get; set; }
         public int Activo { get; set; }
-        public string? fotoUsuario { get; set; }
+        public string? foto { get; set; }
     }
 }
