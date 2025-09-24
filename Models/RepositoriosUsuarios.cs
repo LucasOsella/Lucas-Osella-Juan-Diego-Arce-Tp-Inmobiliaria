@@ -104,7 +104,7 @@ public class RepositorioUsuario
                 command.Parameters.AddWithValue("@Email", usuario.Email);
                 command.Parameters.AddWithValue("@Password", usuario.Password);
                 command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
-                
+
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -144,7 +144,7 @@ public class RepositorioUsuario
         }
         return usuario;
     }
-    
+
     public void EditarUsuario(Usuario usuario)
     {
         using (var connection = conexionBD.GetConnection())
@@ -165,6 +165,24 @@ public class RepositorioUsuario
                 command.Parameters.AddWithValue("@Email", usuario.Email);
                 command.Parameters.AddWithValue("@Password", usuario.Password);
                 command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    
+    public void EliminarUsuario(int id)
+    {
+        using (var connection = conexionBD.GetConnection())
+        {
+            var query = @"UPDATE usuario 
+                        SET activo = 0
+                        WHERE id = @Id";
+
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
 
                 connection.Open();
                 command.ExecuteNonQuery();

@@ -18,8 +18,10 @@
             <th>Detalle</th>
             <th>Importe</th>
             <th>Estado</th>
+            @if(User.IsInRole("ADMIN")){
             <th>Creador</th>
             <th>Finalizador</th>
+            }
             <th>Acciones</th>
         </tr>
     </thead>
@@ -34,8 +36,10 @@
                 <td>@pago.detalle</td>
                 <td>$@pago.importe</td>
                 <td>@pago.estado</td>
+                @if(User.IsInRole("ADMIN")){
                 <td>@pago.id_usuario_creador</td>
                 <td>@pago.id_usuario_finalizador</td>
+                }
                 <td>
                     <a asp-action="EditarPago" asp-route-id="@pago.id" class="btn btn-sm btn-warning">Editar</a>
                     @if(User.IsInRole("ADMIN")){

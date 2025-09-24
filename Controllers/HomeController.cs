@@ -4,6 +4,7 @@ using Tp_inmobiliaria.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

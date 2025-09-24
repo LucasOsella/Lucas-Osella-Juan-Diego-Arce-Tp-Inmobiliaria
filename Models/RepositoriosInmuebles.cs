@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Controllers;
 using Microsoft.AspNetCore.Authorization;
 namespace Tp_inmobiliaria.Models;
+
 [Authorize]
 public class RepositoriosInmuebles
 {
@@ -19,8 +20,22 @@ public class RepositoriosInmuebles
         List<Inmueble> inmuebles = new List<Inmueble>();
         using (var connection = conexionBD.GetConnection())
         {
-            var query = @"SELECT id, direccion, uso, ambientes, coordenadas, precio, estado, id_propietario, id_tipo 
-                        FROM inmueble";
+            var query = @"SELECT 
+                            i.id,
+                            i.direccion,
+                            i.uso,
+                            i.ambientes,
+                            i.coordenadas,
+                            i.precio,
+                            i.estado,
+                            i.id_propietario,
+                            i.id_tipo,
+                            CONCAT(p.apellido, ' ', p.nombre) AS propietario,
+                            t.nombre AS tipo_inmueble
+                        FROM inmueble i
+                        INNER JOIN propietario p ON i.id_propietario = p.id
+                        INNER JOIN tipo_inmueble t ON i.id_tipo = t.id;
+                        ";
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
                 connection.Open();
@@ -38,6 +53,8 @@ public class RepositoriosInmuebles
                         Estado = reader.GetString("estado"),
                         IdPropietario = reader.GetInt32("id_propietario"),
                         IdTipo = reader.GetInt32("id_tipo")
+                        , Propietario = reader.GetString("propietario")
+                        , TipoInmueble = reader.GetString("tipo_inmueble")
                     });
                 }
             }

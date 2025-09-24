@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
+[Authorize]
 public class TipoInmuebleController : Controller
 {
     private readonly ILogger<TipoInmuebleController> _logger;
@@ -42,7 +43,7 @@ public class TipoInmuebleController : Controller
         repo.editarTipo(Tipo_Inmueble);
         return RedirectToAction("Index");
     }
-    
+
     public IActionResult eliminarTipo(int id)
     {
         repo.eliminarTipo(id);

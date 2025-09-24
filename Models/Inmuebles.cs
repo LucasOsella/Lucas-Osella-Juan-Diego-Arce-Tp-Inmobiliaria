@@ -37,5 +37,9 @@ namespace Tp_inmobiliaria.Models
 
         [Required(ErrorMessage = "El Tipo es obligatorio")]
         public int IdTipo { get; set; }
+
+        // Propiedades adicionales para mostrar en la vista
+        public string Propietario { get; set; } = "";
+        public string TipoInmueble { get; set; } = "";
     }
 }

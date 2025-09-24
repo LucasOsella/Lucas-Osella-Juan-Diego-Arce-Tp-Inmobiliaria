@@ -58,7 +58,8 @@ namespace Tp_inmobiliaria.Controllers
                 new Claim(ClaimTypes.Name, usuario.NombreUsuario + " " + usuario.ApellidoUsuario),
                 new Claim(ClaimTypes.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, usuario.RolUsuario.ToString()), // Asumiendo que RolUsuario es un entero
-                new Claim("UserId", usuario.Id.ToString())
+                new Claim("UserId", usuario.Id.ToString()),
+                new Claim("fotoUsuario", usuario.fotoUsuario ?? string.Empty)
             };
 
             // 5. Generar la identidad
@@ -96,7 +97,7 @@ namespace Tp_inmobiliaria.Controllers
                 usuario.Password = hasher.HashPassword(usuario, usuario.Password);
                 usuario.Activo = 1; // Asegurarse de que el usuario esté activo al crearlo
                 repo.CrearUsuario(usuario);
-                return RedirectToAction("Login");
+                return RedirectToAction("Index", "Home");
         }
 
 
@@ -129,6 +130,17 @@ namespace Tp_inmobiliaria.Controllers
             usuarioExistente.IdTipoUsuario = usuario.IdTipoUsuario;
                 repo.EditarUsuario(usuarioExistente);
                 return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult EliminarUsuario(int id)
+        {
+            var usuario = repo.ObtenerUsuarioPorId(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            repo.EliminarUsuario(id);
+            return RedirectToAction("ListaUsuario");
         }
 
         public async Task<IActionResult> Logout()

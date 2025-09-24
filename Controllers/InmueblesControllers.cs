@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Controllers;
+[Authorize]
 public class InmueblesController : Controller
 {
     private readonly ILogger<InmueblesController> _logger;

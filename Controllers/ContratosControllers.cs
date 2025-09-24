@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
-
+[Authorize]
 public class ContratosController : Controller
 {
     private readonly ILogger<ContratosController> _logger;
