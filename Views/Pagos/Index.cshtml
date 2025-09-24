@@ -38,7 +38,9 @@
                 <td>@pago.id_usuario_finalizador</td>
                 <td>
                     <a asp-action="EditarPago" asp-route-id="@pago.id" class="btn btn-sm btn-warning">Editar</a>
+                    @if(User.IsInRole("ADMIN")){
                     <a asp-action="EliminarPago" asp-route-id="@pago.id" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este pago?');">Eliminar</a>
+                    }
                 </td>
             </tr>
         }

@@ -8,7 +8,22 @@ for details on configuring this project to bundle and minify static web assets. 
 a.navbar-brand {
   white-space: normal;
   text-align: center;
-  word-break: break-all;
+  word-break: break-all; 
+}
+.nav-link:hover {
+  text-decoration: underline;
+  border-radius: 5px;
+  background-color: #3b6f70;
+}
+
+.navbar-nav{
+  align-items: center;
+}
+.nav-link {
+  color: white;
+}
+.nav-link:hover {
+  color: #e0e0e0;
 }
 
 a {
