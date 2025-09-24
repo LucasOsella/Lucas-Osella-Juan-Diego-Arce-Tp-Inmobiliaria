@@ -101,20 +101,16 @@
                                 <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#"
                                     id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <!-- Foto de usuario -->
-                                    @{
-                                        var foto = User.FindFirst("foto")?.Value;
-                                    }
-
-                                    @if (!string.IsNullOrEmpty(foto))
+                                    @if (!string.IsNullOrEmpty(User.FindFirst("foto")?.Value))
                                     {
-                                        <img src="@Url.Content(foto)" class="rounded-circle border border-light" alt="Usuario"
-                                            width="40" height="40" />
+                                        <img src="@User.FindFirst("foto")?.Value" alt="a" class="rounded-circle"
+                                            style="width: 30px; height: 30px; object-fit: cover;">
                                     }
                                     else
                                     {
-                                        <i class="fas fa-user-circle fa-2x text-light"></i>
+                                        <img src="/images/usuarios/default.png" alt="" class="rounded-circle"
+                                            style="width: 30px; height: 30px; object-fit: cover;">
                                     }
-
                                     <!-- Nombre -->
                                     <span class="fw-bold">@User.Identity.Name</span>
                                 </a>

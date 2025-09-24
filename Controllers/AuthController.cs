@@ -59,7 +59,7 @@ namespace Tp_inmobiliaria.Controllers
                 new Claim(ClaimTypes.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, usuario.RolUsuario.ToString()), // Asumiendo que RolUsuario es un entero
                 new Claim("UserId", usuario.Id.ToString()),
-                new Claim("foto", usuario.foto ?? "/images/usuarios/default.png")
+                new Claim("foto", usuario.foto.ToString() ?? "/images/usuarios/default.png")
             };
 
             // 5. Generar la identidad
@@ -75,6 +75,7 @@ namespace Tp_inmobiliaria.Controllers
                     IsPersistent = true, // Mantiene la sesión
                     ExpiresUtc = DateTime.UtcNow.AddHours(1) // Expira en 1 hora
                 });
+                ViewBag.FotoUsuario = usuario.foto ?? "/images/usuarios/default.png";
 
             return RedirectToAction("Index", "Home");
         }
@@ -95,17 +96,16 @@ namespace Tp_inmobiliaria.Controllers
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(FotoArchivo.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/usuarios", fileName);
-
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await FotoArchivo.CopyToAsync(stream);
                 }
-
                 usuario.foto = "/images/usuarios/" + fileName; // se guarda la ruta en la BD
-            } 
-
+            } else
+            {
+                usuario.foto = "/images/usuarios/default.png"; // Ruta por defecto si no se sube ninguna foto
+            }
         // Ruta relativa para guardar en BD
-        usuario.foto = "/images/usuarios/" + FotoArchivo.FileName;
     
                 // Hashear la contraseña antes de guardarla
                 var hasher = new PasswordHasher<Usuario>();
