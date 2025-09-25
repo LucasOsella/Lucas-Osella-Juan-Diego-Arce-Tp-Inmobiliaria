@@ -19,11 +19,9 @@ namespace Tp_inmobiliaria.Models
 
         [Required(ErrorMessage = "La fecha de inicio es obligatoria.")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fecha_inicio { get; set; }
 
         [Required(ErrorMessage = "La fecha de fin es obligatoria.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime fecha_fin { get; set; }
 

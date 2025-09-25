@@ -6,11 +6,11 @@
 
 <h2 class="mb-4">Renovar Contrato</h2>
 
-<form asp-action="GuardarEdicionContrato" method="post">
+<form asp-action="GuardarContrato" method="post">
     <input type="hidden" asp-for="id" />
     <div class="mb-3">
         <label asp-for="id_inmueble" class="form-label">Inmueble</label>
-        <select asp-for="id_inmueble" class="form-select" id="InmuebleId" readonly>
+        <select asp-for="id_inmueble" class="form-select" id="InmuebleId">
             <option value="">-- Seleccione un inmueble --</option>
             @foreach (var i in ViewBag.Inmuebles)
             {
@@ -22,8 +22,8 @@
 
     <div class="mb-3">
         <label asp-for="id_inquilino" class="form-label">Inquilino</label>
-        <select asp-for="id_inquilino" class="form-select" id="InquilinoId" readonly>
-            <option value="">-- Seleccione un inquilino --</option>
+        <select asp-for="id_inquilino" class="form-select" id="InquilinoId">
+            <option  value="">-- Seleccione un inquilino --</option>
             @foreach (var inq in ViewBag.Inquilinos)
             {
                 <option value="@inq.Id">@inq.Nombre- Dni: @inq.Dni</option>
@@ -40,13 +40,13 @@
 
     <div class="mb-3">
         <label asp-for="fecha_fin" class="form-label"></label>
-        <input asp-for="fecha_fin" type="date" class="form-control" readonly/>   
+        <input asp-for="fecha_fin" type="date" class="form-control"/>   
         <span asp-validation-for="fecha_fin" class="text-danger"></span>
     </div>
     
     <div class="mb-3">
         <label asp-for="monto_mensual" class="form-label"></label>
-        <input asp-for="monto_mensual" type="number" step="0.01" class="form-control" readonly />
+        <input asp-for="monto_mensual" type="number" step="0.01" class="form-control"/>
         <span asp-validation-for="monto_mensual" class="text-danger"></span>
     </div>
 

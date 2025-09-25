@@ -53,7 +53,13 @@ public class ContratosController : Controller
         var contrato = repo.ObtenerPorId(id);
         return View(contrato);// Busca Views/Contrato/editarContrato.cshtml
     }
-    [HttpPost]
+
+/*************  ✨ Windsurf Command ⭐  *************/
+/// <summary>
+/// Guarda el contrato desde la vista AgregarContrato.
+/// </summary>
+///
+/*******  c5de2040-aa5a-497c-a5ab-1ace2dccca0d  *******/    [HttpPost]
     public IActionResult GuardarContrato(Contratos contrato)
     {
         if (!ModelState.IsValid)
@@ -88,20 +94,13 @@ public class ContratosController : Controller
             ViewBag.Usuarios = repoUsuarios.ObtenerUsuarios();
             return View("EditarContrato", contrato);
         }
-        bool exito = repo.ExisteContratoSolapado(contrato);
-
-        if (exito)
-        {
             var inmuebles = repoInmuebles.ObtenerInmuebles();
             ViewBag.Inmuebles = inmuebles;
             var inquilinos = repoInquilinos.ObtenerInquilinos();
             ViewBag.Inquilinos = inquilinos;
             var usuarios = repoUsuarios.ObtenerUsuarios();
             ViewBag.Usuarios = usuarios;
-            ModelState.AddModelError(string.Empty, "Un inquilino ya tiene un contrato activo en las fechas seleccionadas.");
-            return View("AgregarContrato", contrato);
-        }
-
+        repoInmuebles.CambiarEstadoInmueble(contrato.id_inmueble, "OCUPADO");               
         repo.GuardarEditarContrato(contrato);
         return RedirectToAction("Index");
     }
@@ -113,18 +112,17 @@ public class ContratosController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Renovar(int id, DateTime fecha_fin)
+    public IActionResult Renovar(int id)
     {
         var contrato = repo.ObtenerPorId(id);
-        ViewBag.EsRenovacion = true;
         var inmuebles = repoInmuebles.ObtenerInmuebles();
         ViewBag.Inmuebles = inmuebles;
         var inquilinos = repoInquilinos.ObtenerInquilinos();
         ViewBag.Inquilinos = inquilinos;
         var usuarios = repoUsuarios.ObtenerUsuarios();
         ViewBag.Usuarios = usuarios;
-        contrato.fecha_inicio = fecha_fin;
-        contrato.fecha_fin = fecha_fin.AddMonths(6);
+        contrato.fecha_inicio = contrato.fecha_fin.AddDays(1);
+        contrato.fecha_fin = contrato.fecha_fin.AddMonths(6);
         return View("RenovarContrato", contrato); // Busca Views/Contrato/editarContrato.cshtml
     }
 }
