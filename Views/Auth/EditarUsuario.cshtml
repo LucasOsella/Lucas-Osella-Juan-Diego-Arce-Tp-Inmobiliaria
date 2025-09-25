@@ -9,7 +9,7 @@
 <input type="hidden" asp-for="Id"/>
 
     <div class="mb-3 text-center">
-        <Img type="img" src="@Model.foto" alt="Foto de perfil" class="rounded-circle mb-3"
+        <img src="@Model.foto" alt="Foto de perfil" class="rounded-circle mb-3"
             style="width: 100px; height: 100px; object-fit: cover;">
     </div>
 
@@ -52,12 +52,16 @@
     <div class="mb-3">
     <label for="Foto" class="form-label">Foto de perfil</label>
     <input type="file" name="FotoArchivo" asp-for="foto" class="form-control" />    
-    </div>   
-    <input type="text" name="foto" asp-for="foto" value="@Model.foto" hidden/>
+    </div>
+    
+
     @if(User.IsInRole("EMPLEADO"))
     {
         <input type="hidden" asp-for="IdTipoUsuario"/>
     }
+
+    <input type="text" name="foto" asp-for="foto" value="@Model.foto" hidden/>
+
     <button type="submit" class="btn btn-primary">Guardar Usuario</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

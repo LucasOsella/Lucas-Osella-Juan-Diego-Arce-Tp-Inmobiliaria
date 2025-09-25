@@ -96,6 +96,19 @@
                                             asp-action="AgregarContrato">Agregar Contrato</a></li>
                                 </ul>
                             </li>
+                            @if (User.IsInRole("ADMIN"))
+                            {
+                                <li class="nav.item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="usuariosDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                                    <li><a class="dropdown-item  link-opacity-100-hover" asp-controller="Auth"
+                                            asp-action="ListaUsuario">Ver Usuarios</a></li>
+                                </ul>
+                            </li>
+                            }                            
                             <!-- Dropdown Usuarios -->
                             <li class="nav-item dropdown ms-auto">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#"
@@ -103,7 +116,7 @@
                                     <!-- Foto de usuario -->
                                     @if (!string.IsNullOrEmpty(User.FindFirst("foto")?.Value))
                                     {
-                                        <img src="@User.FindFirst("foto")?.Value" alt="a" class="rounded-circle"
+                                        <img src="@User.FindFirst("foto")?.Value?v=@DateTime.Now.Ticks" alt="a" class="rounded-circle"
                                             style="width: 30px; height: 30px; object-fit: cover;">
                                     }
                                     else
