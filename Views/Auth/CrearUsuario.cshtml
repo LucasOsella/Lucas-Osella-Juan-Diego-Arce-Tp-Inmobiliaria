@@ -39,12 +39,6 @@
         </select>
         <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
     </div>
-
-    <div class="mb-3">
-    <label for="Foto" class="form-label">Foto de perfil</label>
-    <input type="file" name="FotoArchivo" asp-for="foto" class="form-control" />
-    </div>
-
     <button type="submit" class="btn btn-primary">Guardar Usuario</button>
     <a asp-controller="Auth" asp-action="ListaUsuario" class="btn btn-secondary">Cancelar</a>
 

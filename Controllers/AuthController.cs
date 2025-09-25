@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Security;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using Tp_inmobiliaria.Models;
 
@@ -75,8 +76,6 @@ namespace Tp_inmobiliaria.Controllers
                     IsPersistent = true, // Mantiene la sesión
                     ExpiresUtc = DateTime.UtcNow.AddHours(1) // Expira en 1 hora
                 });
-                ViewBag.FotoUsuario = usuario.foto ?? "/images/usuarios/default.png";
-
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
@@ -92,25 +91,12 @@ namespace Tp_inmobiliaria.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> CrearUsuario(Usuario usuario, IFormFile FotoArchivo)
-        { if (FotoArchivo != null && FotoArchivo.Length > 0)
-            {
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(FotoArchivo.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/usuarios", fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await FotoArchivo.CopyToAsync(stream);
-                }
-                usuario.foto = "/images/usuarios/" + fileName; // se guarda la ruta en la BD
-            } else
-            {
-                usuario.foto = "/images/usuarios/default.png"; // Ruta por defecto si no se sube ninguna foto
-            }
-        // Ruta relativa para guardar en BD
-    
+        { 
                 // Hashear la contraseña antes de guardarla
                 var hasher = new PasswordHasher<Usuario>();
                 usuario.Password = hasher.HashPassword(usuario, usuario.Password);
                 usuario.Activo = 1; // Asegurarse de que el usuario esté activo al crearlo
+                usuario.foto = "/images/usuarios/default.png"; // Ruta por defecto si no se sube ninguna foto
                 repo.CrearUsuario(usuario);
                 return RedirectToAction("Index", "Home");
         }
@@ -126,8 +112,28 @@ namespace Tp_inmobiliaria.Controllers
             return View(usuario);// busca
         }
 
-        public IActionResult GuardarEdicion(Usuario usuario)
+        public async Task <IActionResult> GuardarEdicion(Usuario usuario, IFormFile FotoArchivo)
         {
+            if (FotoArchivo != null && FotoArchivo.Length > 0)
+            {
+                //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(FotoArchivo.FileName);
+                var fileName = usuario.Id + Path.GetExtension(FotoArchivo.FileName); // Usar el ID del usuario como nombre de archivo
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/usuarios", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await FotoArchivo.CopyToAsync(stream);
+                }
+                usuario.foto = "/images/usuarios/" + fileName; // se guarda la ruta en la BD
+            }
+            else
+            {
+                //var usuariofoto = repo.ObtenerUsuarioPorId(usuario.Id);
+                //if (usuariofoto != null)
+                //{
+                //    usuario.foto = usuariofoto.foto;
+                //}
+                usuario.foto = usuario.foto; // Mantener la foto existente
+            }
             var usuarioExistente = repo.ObtenerUsuarioPorId(usuario.Id);
             if (usuarioExistente == null)
             {
@@ -143,8 +149,10 @@ namespace Tp_inmobiliaria.Controllers
             usuarioExistente.ApellidoUsuario = usuario.ApellidoUsuario; 
             usuarioExistente.Email = usuario.Email;
             usuarioExistente.IdTipoUsuario = usuario.IdTipoUsuario;
-                repo.EditarUsuario(usuarioExistente);
-                return RedirectToAction("Index", "Home");
+            usuarioExistente.foto = usuario.foto;           
+            repo.EditarUsuario(usuarioExistente);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult EliminarUsuario(int id)

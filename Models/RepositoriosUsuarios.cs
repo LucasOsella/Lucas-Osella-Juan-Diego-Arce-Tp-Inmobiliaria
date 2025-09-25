@@ -118,7 +118,7 @@ public class RepositorioUsuario
         Usuario usuario = null;
         var query = @"SELECT u.id, u.nombre_usuario, u.apellido_usuario, 
                                 u.email, u.password, u.id_tipo_usuario, 
-                                t.rol_usuario
+                                t.rol_usuario, u.foto
                         FROM usuario u
                         INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id_tipo_usuario
                         WHERE u.id = @Id AND u.activo = 1";
@@ -140,7 +140,8 @@ public class RepositorioUsuario
                         Email = reader.GetString("email"),
                         Password = reader.GetString("password"),
                         IdTipoUsuario = reader.GetInt32("id_tipo_usuario"),
-                        RolUsuario = reader.GetString("rol_usuario")
+                        RolUsuario = reader.GetString("rol_usuario"),
+                        foto = reader.GetString("foto")
                     };
                 }
             }
@@ -150,6 +151,7 @@ public class RepositorioUsuario
     
     public void EditarUsuario(Usuario usuario)
     {
+        
         using (var connection = conexionBD.GetConnection())
         {
             var query = @"UPDATE usuario 
@@ -157,7 +159,8 @@ public class RepositorioUsuario
                             apellido_usuario = @ApellidoUsuario, 
                             email = @Email, 
                             password = @Password, 
-                            id_tipo_usuario = @IdTipoUsuario
+                            id_tipo_usuario = @IdTipoUsuario,
+                            foto = @Foto
                         WHERE id = @Id";
 
             using (var command = new MySqlCommand(query, connection))
@@ -168,6 +171,7 @@ public class RepositorioUsuario
                 command.Parameters.AddWithValue("@Email", usuario.Email);
                 command.Parameters.AddWithValue("@Password", usuario.Password);
                 command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
+                command.Parameters.AddWithValue("@Foto", usuario.foto ?? (object)DBNull.Value);
 
                 connection.Open();
                 command.ExecuteNonQuery();
