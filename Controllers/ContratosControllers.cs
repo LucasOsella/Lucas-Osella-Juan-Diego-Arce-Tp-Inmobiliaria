@@ -74,6 +74,7 @@ public class ContratosController : Controller
             return View("AgregarContrato", contrato);
         }
 
+        repoInmuebles.CambiarEstadoInmueble(contrato.id_inmueble, "OCUPADO");
         repo.AgregarContrato(contrato);
         return RedirectToAction("Index");
     }
@@ -106,6 +107,7 @@ public class ContratosController : Controller
 
     public IActionResult EliminarContrato(int id)
     {
+        repoInmuebles.CambiarEstadoInmueble(repo.ObtenerPorId(id).id_inmueble, "DISPONIBLE");
         repo.Eliminar(id);
         return RedirectToAction("Index");
     }

@@ -21,7 +21,16 @@
             <th>Ambientes</th>
             <th>Coordenadas</th>
             <th>Precio</th>
-            <th>Estado</th>
+            <th class="dropdown">
+                <div class="dropdown-menu hover">
+                    <a class="dropdown-item" asp-action="Index" asp-route-estado="">Todos</a>
+                    <a class="dropdown-item" asp-action="Filtrar" asp-route-estado="DISPONIBLE">Disponibles</a>
+                    <a class="dropdown-item" asp-action="Filtrar" asp-route-estado="OCUPADO">Ocupados</a>
+                </div>
+                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                    Estado
+                </div>
+            </th>
             <th>Propietario</th>
             <th>Tipo</th>
             <th>Acciones</th>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 
 namespace Tp_inmobiliaria.Controllers;
+
 [Authorize]
 public class InmueblesController : Controller
 {
@@ -79,5 +80,13 @@ public class InmueblesController : Controller
     {
         repo.EliminarInmueble(id);
         return RedirectToAction("Index");
+    }
+
+    // Filtrar inmuebles por estado
+    public IActionResult Filtrar(string estado)
+    {
+        var lista = repo.FiltrarInmueblesPorEstado(estado);
+        ViewBag.EstadoSeleccionado = estado; // Para mantener el estado seleccionado en la vista
+        return View("Index", lista); // Reutiliza la vista Index para mostrar los resultados filtrados
     }
 }

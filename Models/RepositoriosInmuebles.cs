@@ -53,8 +53,10 @@ public class RepositoriosInmuebles
                         Estado = reader.GetString("estado"),
                         IdPropietario = reader.GetInt32("id_propietario"),
                         IdTipo = reader.GetInt32("id_tipo")
-                        , Propietario = reader.GetString("propietario")
-                        , TipoInmueble = reader.GetString("tipo_inmueble")
+                        ,
+                        Propietario = reader.GetString("propietario")
+                        ,
+                        TipoInmueble = reader.GetString("tipo_inmueble")
                     });
                 }
             }
@@ -157,6 +159,72 @@ public class RepositoriosInmuebles
             using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    public List<Inmueble> FiltrarInmueblesPorEstado(string estado)
+    {
+        List<Inmueble> inmuebles = new List<Inmueble>();
+        using (var connection = conexionBD.GetConnection())
+        {
+            var query = @"SELECT 
+                            i.id,
+                            i.direccion,
+                            i.uso,
+                            i.ambientes,
+                            i.coordenadas,
+                            i.precio,
+                            i.estado,
+                            i.id_propietario,
+                            i.id_tipo,
+                            CONCAT(p.apellido, ' ', p.nombre) AS propietario,
+                            t.nombre AS tipo_inmueble
+                        FROM inmueble i
+                        INNER JOIN propietario p ON i.id_propietario = p.id
+                        INNER JOIN tipo_inmueble t ON i.id_tipo = t.id
+                        WHERE (@estado = '' OR i.estado = @estado);
+                        ";
+            using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@estado", estado);
+                connection.Open();
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    inmuebles.Add(new Inmueble()
+                    {
+                        Id = reader.GetInt32("id"),
+                        Direccion = reader.GetString("direccion"),
+                        Uso = reader.GetString("uso"),
+                        Ambientes = reader.GetInt32("ambientes"),
+                        Coordenadas = reader.IsDBNull(reader.GetOrdinal("coordenadas")) ? "" : reader.GetString("coordenadas"),
+                        Precio = reader.GetDecimal("precio"),
+                        Estado = reader.GetString("estado"),
+                        IdPropietario = reader.GetInt32("id_propietario"),
+                        IdTipo = reader.GetInt32("id_tipo")
+                        ,
+                        Propietario = reader.GetString("propietario")
+                        ,
+                        TipoInmueble = reader.GetString("tipo_inmueble")
+                    });
+                }
+            }
+        }
+        return inmuebles;
+    }
+    
+    public void CambiarEstadoInmueble(int id, string nuevoEstado)
+    {
+        var query = "UPDATE inmueble SET estado=@estado WHERE id=@id";
+        using (var connection = conexionBD.GetConnection())
+        {
+            using (var command = new MySql.Data.MySqlClient.MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@estado", nuevoEstado);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
