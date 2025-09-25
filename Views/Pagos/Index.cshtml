@@ -37,13 +37,13 @@
                 <td>$@pago.importe</td>
                 <td>@pago.estado</td>
                 @if(User.IsInRole("ADMIN")){
-                <td>@pago.id_usuario_creador</td>
-                <td>@pago.id_usuario_finalizador</td>
+                <td>@pago.NombreCreador @pago.ApellidoCreador </td>
+                <td>@pago.NombreFinalizador @pago.ApellidoFinalizador</td>
                 }
                 <td>
                     <a asp-action="EditarPago" asp-route-id="@pago.id" class="btn btn-sm btn-warning">Editar</a>
                     @if(User.IsInRole("ADMIN")){
-                    <a asp-action="EliminarPago" asp-route-id="@pago.id" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este pago?');">Eliminar</a>
+                    <a asp-action="EliminarPago" asp-route-id="@pago.id" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres anular este pago?');">Anular</a>
                     }
                 </td>
             </tr>

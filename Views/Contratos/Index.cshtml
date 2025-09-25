@@ -45,7 +45,7 @@
                     </a>
                     @if (User.IsInRole("ADMIN"))
                     {
-                        <a class="btn btn-danger btn-sm" asp-action="EliminarContrato" asp-route-id="@p.id">
+                        <a class="btn btn-danger btn-sm" asp-action="EliminarContrato" asp-route-id="@p.id" onclick="return confirm('¿Seguro que quieres ELIMINAR este Contrato?');">
                             <i class="bi bi-trash"></i> Eliminar
                         </a>
                     }

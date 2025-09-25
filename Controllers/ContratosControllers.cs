@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Tp_inmobiliaria.Controllers;
+
 [Authorize]
 public class ContratosController : Controller
 {
@@ -51,7 +52,7 @@ public class ContratosController : Controller
         var contrato = repo.ObtenerPorId(id);
         return View(contrato);// Busca Views/Contrato/editarContrato.cshtml
     }
-
+    [HttpPost]
     public IActionResult GuardarContrato(Contratos contrato)
     {
         if (!ModelState.IsValid)
@@ -59,6 +60,20 @@ public class ContratosController : Controller
             // Si hay errores de validación, volver a la vista mostrando los mensajes
             return View("AgregarContrato", contrato);
         }
+        bool exito = repo.ExisteContratoSolapado(contrato);
+
+        if (exito)
+        {
+            var inmuebles = repoInmuebles.ObtenerInmuebles();
+            ViewBag.Inmuebles = inmuebles;
+            var inquilinos = repoInquilinos.ObtenerInquilinos();
+            ViewBag.Inquilinos = inquilinos;
+            var usuarios = repoUsuarios.ObtenerUsuarios();
+            ViewBag.Usuarios = usuarios;
+            ModelState.AddModelError(string.Empty, "Un inquilino ya tiene un contrato activo en las fechas seleccionadas.");
+            return View("AgregarContrato", contrato);
+        }
+
         repo.AgregarContrato(contrato);
         return RedirectToAction("Index");
     }
@@ -70,6 +85,19 @@ public class ContratosController : Controller
             ViewBag.Inquilinos = repoInquilinos.ObtenerInquilinos();
             ViewBag.Usuarios = repoUsuarios.ObtenerUsuarios();
             return View("EditarContrato", contrato);
+        }
+        bool exito = repo.ExisteContratoSolapado(contrato);
+
+        if (exito)
+        {
+            var inmuebles = repoInmuebles.ObtenerInmuebles();
+            ViewBag.Inmuebles = inmuebles;
+            var inquilinos = repoInquilinos.ObtenerInquilinos();
+            ViewBag.Inquilinos = inquilinos;
+            var usuarios = repoUsuarios.ObtenerUsuarios();
+            ViewBag.Usuarios = usuarios;
+            ModelState.AddModelError(string.Empty, "Un inquilino ya tiene un contrato activo en las fechas seleccionadas.");
+            return View("AgregarContrato", contrato);
         }
 
         repo.GuardarEditarContrato(contrato);

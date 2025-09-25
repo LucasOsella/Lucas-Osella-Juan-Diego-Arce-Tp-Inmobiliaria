@@ -185,4 +185,29 @@ public class RepositorioContratos
             }
         }
     }
+
+public bool ExisteContratoSolapado(Contratos contrato)
+{
+    using (var connection = new MySqlConnection(conexionBD.GetConnection().ConnectionString))
+    {
+        connection.Open();
+        string query = @"
+            SELECT COUNT(*) 
+            FROM contrato
+            WHERE id_inmueble = @id_inmueble
+                AND @fecha_inicio <= fecha_fin
+                AND @fecha_fin >= fecha_inicio;";
+
+        using (var cmd = new MySqlCommand(query, connection))
+        {
+            cmd.Parameters.AddWithValue("@id_inmueble", contrato.id_inmueble);
+            cmd.Parameters.AddWithValue("@fecha_inicio", contrato.fecha_inicio);
+            cmd.Parameters.AddWithValue("@fecha_fin", contrato.fecha_fin);
+
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
+            return count > 0;
+        }
+    }
+}
+
 }

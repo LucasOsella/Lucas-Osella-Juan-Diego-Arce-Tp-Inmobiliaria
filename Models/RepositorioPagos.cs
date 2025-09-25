@@ -20,9 +20,13 @@ public class RepositorioPagos
 
         using (var connection = conexionBD.GetConnection())
         {
-            var query = @"SELECT id, id_contrato, numero_pago, fecha_pago, detalle, importe, 
-                                estado, id_usuario_creador, id_usuario_finalizador 
-                        FROM pago";
+            var query = @"SELECT p.id, p.id_contrato, p.numero_pago, p.fecha_pago, p.detalle, p.importe, 
+                                p.estado, p.id_usuario_creador, p.id_usuario_finalizador
+                                , u1.nombre_usuario AS nombre_usuario, u1.apellido_usuario AS apellido_usuario
+                                , u2.nombre_usuario AS nombre_usuario, u2.apellido_usuario AS apellido_usuario 
+                        FROM pago p
+                            INNER JOIN usuario u1 ON p.id_usuario_creador = u1.id
+                            INNER JOIN usuario u2 ON p.id_usuario_finalizador = u2.id;";
 
             using (var command = new MySqlCommand(query, connection))
             {
@@ -40,7 +44,11 @@ public class RepositorioPagos
                         importe = reader.GetDecimal("importe"),
                         estado = reader.GetString("estado"),
                         id_usuario_creador = reader.GetInt32("id_usuario_creador"),
-                        id_usuario_finalizador = reader.GetInt32("id_usuario_finalizador")
+                        id_usuario_finalizador = reader.GetInt32("id_usuario_finalizador"),
+                        NombreCreador = reader.GetString("nombre_usuario"),
+                        ApellidoCreador = reader.GetString("apellido_usuario"),
+                        NombreFinalizador = reader.GetString("nombre_usuario"),
+                        ApellidoFinalizador = reader.GetString("apellido_usuario")
                     });
                 }
             }
@@ -57,7 +65,7 @@ public class RepositorioPagos
         {
             var query = @"SELECT id, id_contrato, numero_pago, fecha_pago, detalle, importe, 
                                 estado, id_usuario_creador, id_usuario_finalizador 
-                          FROM pago WHERE id_contrato = @id_contrato";
+                        FROM pago WHERE id_contrato = @id_contrato";
 
             using (var command = new MySqlCommand(query, connection))
             {
@@ -76,7 +84,7 @@ public class RepositorioPagos
                         importe = reader.GetDecimal("importe"),
                         estado = reader.GetString("estado"),
                         id_usuario_creador = reader.GetInt32("id_usuario_creador"),
-                        id_usuario_finalizador = reader.GetInt32("id_usuario_finalizador")
+                        id_usuario_finalizador = reader.GetInt32("id_usuario_finalizador"),
                     });
                 }
             }
@@ -93,7 +101,7 @@ public class RepositorioPagos
         {
             var query = @"SELECT id, id_contrato, numero_pago, fecha_pago, detalle, importe, 
                                 estado, id_usuario_creador, id_usuario_finalizador 
-                          FROM pago WHERE id = @id";
+                        FROM pago WHERE id = @id";
 
             using (var command = new MySqlCommand(query, connection))
             {
@@ -125,7 +133,7 @@ public class RepositorioPagos
     {
         var query = @"INSERT INTO pago 
                         (id_contrato, numero_pago, fecha_pago, detalle, importe, estado, id_usuario_creador, id_usuario_finalizador) 
-                      VALUES 
+                    VALUES 
                         (@id_contrato, @numero_pago, @fecha_pago, @detalle, @importe, @estado, @id_usuario_creador, @id_usuario_finalizador)";
 
         using (var connection = conexionBD.GetConnection())
@@ -152,10 +160,10 @@ public class RepositorioPagos
     public void EditarPago(Pago pago)
     {
         var query = @"UPDATE pago 
-                      SET id_contrato=@id_contrato, numero_pago=@numero_pago, fecha_pago=@fecha_pago, 
-                          detalle=@detalle, importe=@importe, estado=@estado, 
-                          id_usuario_creador=@id_usuario_creador, id_usuario_finalizador=@id_usuario_finalizador 
-                      WHERE id = @id";
+                    SET id_contrato=@id_contrato, numero_pago=@numero_pago, fecha_pago=@fecha_pago, 
+                        detalle=@detalle, importe=@importe, estado=@estado, 
+                        id_usuario_creador=@id_usuario_creador, id_usuario_finalizador=@id_usuario_finalizador 
+                    WHERE id = @id";
 
         using (var connection = conexionBD.GetConnection())
         {
@@ -180,7 +188,7 @@ public class RepositorioPagos
     // Eliminar un pago
     public void Eliminar(int id)
     {
-        var query = "DELETE FROM pago WHERE id = @id";
+        var query = "UPDATE pago SET estado='ANULADO' WHERE id = @id";
 
         using (var connection = conexionBD.GetConnection())
         {

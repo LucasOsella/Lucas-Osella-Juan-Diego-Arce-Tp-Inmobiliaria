@@ -7,6 +7,7 @@
 <h2 class="mb-4">Agregar Contrato</h2>
 
 <form asp-action="GuardarContrato" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="mb-3">
         <label asp-for="id_inmueble" class="form-label">Inmueble</label>
         <select asp-for="id_inmueble" class="form-select" id="InmuebleId">

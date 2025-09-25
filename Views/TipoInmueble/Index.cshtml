@@ -24,11 +24,11 @@
             <td>@p.Id</td>
             <td>@p.Nombre</td>
             <td>
-                <a class="btn btn-success btn-sm me-1" asp-action="EditarTipo" asp-route-id="@p.Id">
+                <a class="btn btn-success btn-sm me-1" asp-action="EditarTipo" asp-route-id="@p.Id" >
                     <i class="bi bi-pencil-square"></i> Editar
                 </a>
-                <a class="btn btn-danger btn-sm" asp-action="EliminarInmueble" asp-route-id="@p.Id">
-                    <i class="bi bi-trash"></i> Eliminar
+                <a class="btn btn-danger btn-sm" asp-action="EliminarInmueble" asp-route-id="@p.Id" onclick="return confirm('¿Seguro que quieres anular este pago?');">
+                    <i class="bi bi-trash "></i> Eliminar
                 </a>
             </td>
         </tr>
