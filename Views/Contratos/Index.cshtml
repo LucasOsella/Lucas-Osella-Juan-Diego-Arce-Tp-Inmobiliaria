@@ -41,14 +41,19 @@
                 }
                 <td>
                     <a class="btn btn-primary btn-sm me-1" asp-action="EditarContrato" asp-route-id="@p.id">
-                        <i class="bi bi-pencil-square"></i> Editar
+                        <i class="bi bi-pencil-square"></i>
                     </a>
+                    <a class="btn btn-info btn-sm" asp-action="Renovar" asp-route-id="@p.id" asp-route-fecha_fin="@p.fecha_fin">
+                    <i class="bi bi-file-earmark-plus"></i> 
+                    </a>
+
                     @if (User.IsInRole("ADMIN"))
                     {
                         <a class="btn btn-danger btn-sm" asp-action="EliminarContrato" asp-route-id="@p.id" onclick="return confirm('¿Seguro que quieres ELIMINAR este Contrato?');">
-                            <i class="bi bi-trash"></i> Eliminar
+                            <i class="bi bi-trash"></i>
                         </a>
                     }
+
                 </td>
             </tr>
         }

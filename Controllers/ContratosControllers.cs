@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tp_inmobiliaria.Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Tp_inmobiliaria.Controllers;
 
@@ -110,5 +111,20 @@ public class ContratosController : Controller
         repoInmuebles.CambiarEstadoInmueble(repo.ObtenerPorId(id).id_inmueble, "DISPONIBLE");
         repo.Eliminar(id);
         return RedirectToAction("Index");
+    }
+
+    public IActionResult Renovar(int id, DateTime fecha_fin)
+    {
+        var contrato = repo.ObtenerPorId(id);
+        ViewBag.EsRenovacion = true;
+        var inmuebles = repoInmuebles.ObtenerInmuebles();
+        ViewBag.Inmuebles = inmuebles;
+        var inquilinos = repoInquilinos.ObtenerInquilinos();
+        ViewBag.Inquilinos = inquilinos;
+        var usuarios = repoUsuarios.ObtenerUsuarios();
+        ViewBag.Usuarios = usuarios;
+        contrato.fecha_inicio = fecha_fin;
+        contrato.fecha_fin = fecha_fin.AddMonths(6);
+        return View("RenovarContrato", contrato); // Busca Views/Contrato/editarContrato.cshtml
     }
 }

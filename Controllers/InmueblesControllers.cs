@@ -89,4 +89,13 @@ public class InmueblesController : Controller
         ViewBag.EstadoSeleccionado = estado; // Para mantener el estado seleccionado en la vista
         return View("Index", lista); // Reutiliza la vista Index para mostrar los resultados filtrados
     }
+
+    public IActionResult FiltrarPorFecha(DateTime fecha_inicio, DateTime fecha_fin)
+    {
+        var lista = repo.TraerporFecha(fecha_inicio, fecha_fin);
+        ViewBag.FechaInicio = fecha_inicio;
+        ViewBag.FechaFin = fecha_fin;
+        return View("Index", lista);
+    }
+
 }

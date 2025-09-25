@@ -10,7 +10,17 @@
 <div class="mb-3">
     <a type="button" class="btn btn-success mb-3" asp-action="AgregarInmueble">Agregar Inmueble</a>
     <a type="button" class="btn btn-success mb-3" asp-controller="TipoInmueble" asp-action="index">Tipos de inmuebles</a>
+    <a type="button" class="btn btn-success mb-3" asp-action="Index" float="rigth">Borrar Filtros</a>
 </div>
+
+
+@if (ViewBag.FechaInicio != null && ViewBag.FechaFin != null)
+{
+    <div class="alert alert-info" role="alert">
+        Filtrado por fecha: Desde <strong>@(((DateTime)ViewBag.FechaInicio).ToString("dd-MM-yyyy"))</strong> hasta <strong>@(((DateTime)ViewBag.FechaInicio).ToString("dd-MM-yyyy"))</strong>
+    </div>
+}
+
 
 <table class="table table-striped table-hover">
     <thead class="table-dark">
@@ -33,7 +43,21 @@
             </th>
             <th>Propietario</th>
             <th>Tipo</th>
-            <th>Acciones</th>
+            <th>
+                    Acciones
+            </th>
+            <th class="dropdown">
+                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  style="cursor: pointer;">
+                    Filtrar por fecha
+                </div>
+                    <div class="dropdown-menu hover">
+                    <form asp-action="FiltrarPorFecha" method="get">
+                    <input type="date" name="fecha_inicio" />
+                    <input type="date" name="fecha_fin" />
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                    </div>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -51,12 +75,12 @@
             <td>@i.TipoInmueble</td>
             <td>
                 <a class="btn btn-success btn-sm me-1" asp-action="EditarInmueble" asp-route-id="@i.Id">
-                    <i class="bi bi-pencil-square"></i> Editar
+                    <i class="bi bi-pencil-square"></i>
                 </a>
                 @if(User.IsInRole("ADMIN"))
                 {
                 <a class="btn btn-danger btn-sm" asp-action="EliminarInmueble" asp-route-id="@i.Id" onclick="return confirm('¿Seguro que quieres ELIMINAR este Inmueble?');">
-                    <i class="bi bi-trash"></i> Eliminar
+                    <i class="bi bi-trash"></i>
                 </a>
                 }
             </td>
