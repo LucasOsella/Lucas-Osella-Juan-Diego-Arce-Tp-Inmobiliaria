@@ -68,7 +68,7 @@
             <option value="">-- Seleccione un Usuario --</option>
             @foreach (var u in ViewBag.usuarios)
             {
-                <option value="@u.Id">@u.NombreUsuario- Rol: @u.RolUsuario</option>
+                <option value="@u.Id">@u.NombreUsuario - Rol: @u.RolUsuario</option>
             }
         </select>
         <span asp-validation-for="id_finalizador" class="text-danger"></span>
