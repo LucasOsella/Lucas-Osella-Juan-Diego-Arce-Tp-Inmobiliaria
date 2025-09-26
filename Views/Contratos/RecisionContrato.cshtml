@@ -1,22 +1,34 @@
 @model Tp_inmobiliaria.Models.Contratos
 
-<h2>Rescisión de Contrato</h2>
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px; border-radius: 12px; background-color: #fefefe;">
+    <h2 class="mb-4 text-center">Rescisión de Contrato</h2>
 
-<p><strong>Fecha de inicio:</strong> @Model.fecha_inicio.ToString("dd/MM/yyyy")</p>
-<p><strong>Fecha de fin original:</strong> @Model.fecha_fin.ToString("dd/MM/yyyy")</p>
-<p><strong>Fecha de rescisión:</strong> @Model.fecha_rescision?.ToString("dd/MM/yyyy")</p>
-<p><strong>Meses adeudados:</strong> @ViewBag.DeudaMeses</p>
-<p><strong>Multa:</strong> $@ViewBag.Multa</p>
+    <div class="mb-2">
+        <strong>Fecha de inicio:</strong> @Model.fecha_inicio.ToString("dd/MM/yyyy")
+    </div>
+    <div class="mb-2">
+        <strong>Fecha de fin original:</strong> @Model.fecha_fin.ToString("dd/MM/yyyy")
+    </div>
+    <div class="mb-2">
+        <strong>Fecha de rescisión:</strong> @Model.fecha_rescision?.ToString("dd/MM/yyyy")
+    </div>
+    <div class="mb-2">
+        <strong>Meses adeudados:</strong> @ViewBag.DeudaMeses
+    </div>
+    <div class="mb-3">
+        <strong>Multa:</strong> $@ViewBag.Multa
+    </div>
 
-@if (!Model.multa_pagada)
-{
-    <form asp-action="PagarMulta" method="post">
-        <input type="hidden" name="idContrato" value="@Model.id" />
-        <input type="hidden" name="multa" value="@Model.multa" />
-        <button type="submit" class="btn btn-danger">Registrar Pago de Multa</button>
-    </form>
-}
-else
-{
-    <p class="text-success">La multa ya fue pagada.</p>
-}
+    @if (!Model.multa_pagada)
+    {
+        <form asp-action="PagarMulta" method="post">
+            <input type="hidden" name="idContrato" value="@Model.id" />
+            <input type="hidden" name="multa" value="@Model.multa" />
+            <button type="submit" class="btn btn-danger w-100">Registrar Pago de Multa</button>
+        </form>
+    }
+    else
+    {
+        <p class="text-success fw-bold mt-3 text-center">La multa ya fue pagada.</p>
+    }
+</div>

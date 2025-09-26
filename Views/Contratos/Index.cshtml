@@ -17,10 +17,11 @@
             <th>Inmuebel</th>
             <th>Fecha Incicio</th>
             <th>Fecha Fin</th>
-            <th>Monto Mensual</th>
-            @if(User.IsInRole("ADMIN")){
-            <th>Creador</th>
-            <th>Finalizador</th>
+            <th>Monto Mes</th>
+            @if (User.IsInRole("ADMIN"))
+            {
+                <th>Creador</th>
+                <th>Finalizador</th>
             }
             <th>Acciones</th>
         </tr>
@@ -35,27 +36,41 @@
                 <td>@p.fecha_inicio</td>
                 <td>@p.fecha_fin</td>
                 <td>@p.monto_mensual</td>
-                @if(User.IsInRole("ADMIN")){
-                <td>@p.NombreCreador @p.ApellidoCreador</td>
-                <td>@p.NombreFinalizador @p.ApellidoFinalizador</td>
+                @if (User.IsInRole("ADMIN"))
+                {
+                    <td>@p.NombreCreador @p.ApellidoCreador</td>
+                    <td>@p.NombreFinalizador @p.ApellidoFinalizador</td>
                 }
-                <td>
-                    <a class="btn btn-primary btn-sm me-1" asp-action="EditarContrato" asp-route-id="@p.id">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a class="btn btn-info btn-sm" asp-action="Renovar" asp-route-id="@p.id">
-                    <i class="bi bi-file-earmark-plus"></i> 
-                    </a>
-                    <a class="btn btn-warning btn-sm" asp-action="Rescindir" asp-route-id="@p.id">
-                         <i class="bi bi-exclamation-triangle"></i> Rescindir
+                <td class="dropdown text-center">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                        <i class="bi bi-three-dots"></i>
+                    </div>
+                    <ul class="dropdown-menu shadow">
+                        <li>
+                            <a class="dropdown-item text-primary" asp-action="EditarContrato" asp-route-id="@p.id">
+                                <i class="bi bi-pencil-square"></i> Editar
                             </a>
-                    @if (User.IsInRole("ADMIN"))
-                    {
-                        <a class="btn btn-danger btn-sm" asp-action="EliminarContrato" asp-route-id="@p.id" onclick="return confirm('¿Seguro que quieres ELIMINAR este Contrato?');">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    }
-
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-info" asp-action="Renovar" asp-route-id="@p.id">
+                                <i class="bi bi-file-earmark-plus"></i> Renovar
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-warning" asp-action="Rescindir" asp-route-id="@p.id">
+                                <i class="bi bi-exclamation-triangle"></i> Rescindir
+                            </a>
+                        </li>
+                        @if (User.IsInRole("ADMIN"))
+                        {
+                            <li>
+                                <a class="dropdown-item text-danger" asp-action="EliminarContrato" asp-route-id="@p.id"
+                                    onclick="return confirm('¿Seguro que quieres ELIMINAR este Contrato?');">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </td>
             </tr>
         }

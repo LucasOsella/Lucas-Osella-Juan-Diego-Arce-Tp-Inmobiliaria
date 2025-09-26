@@ -7,7 +7,7 @@
 </div>
 
 <table class="table table-striped">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -24,12 +24,25 @@
                 <td>@usuario.ApellidoUsuario</td>
                 <td>@usuario.Email</td>
                 <td>@usuario.RolUsuario</td>
-                <td>
-                    <a asp-action="EditarUsuario" asp-route-id="@usuario.Id" class="btn btn-sm btn-primary">Editar</a>
-                    <!-- Botón Eliminar con confirmación -->
-                    <form asp-action="EliminarUsuario" asp-route-id="@usuario.Id" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                    </form>
+                <td class="dropdown text-center">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">
+                        <i class="bi bi-three-dots"></i>
+                    </div>
+                    <ul class="dropdown-menu shadow">
+                        <li>
+                            <a class="dropdown-item text-primary" asp-action="EditarUsuario" asp-route-id="@usuario.Id">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                        </li>
+                        <li>
+                            <form asp-action="EliminarUsuario" asp-route-id="@usuario.Id" method="post"
+                                onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         }

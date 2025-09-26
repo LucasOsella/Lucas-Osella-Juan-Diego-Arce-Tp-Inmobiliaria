@@ -9,7 +9,7 @@
 <a asp-action="AgregarPago" class="btn btn-primary mb-3">Agregar Pago</a>
 
 <table class="table table-bordered table-striped">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>ID</th>
             <th>Contrato</th>
@@ -18,9 +18,10 @@
             <th>Detalle</th>
             <th>Importe</th>
             <th>Estado</th>
-            @if(User.IsInRole("ADMIN")){
-            <th>Creador</th>
-            <th>Finalizador</th>
+            @if (User.IsInRole("ADMIN"))
+            {
+                <th>Creador</th>
+                <th>Finalizador</th>
             }
             <th>Acciones</th>
         </tr>
@@ -36,15 +37,31 @@
                 <td>@pago.detalle</td>
                 <td>$@pago.importe</td>
                 <td>@pago.estado</td>
-                @if(User.IsInRole("ADMIN")){
-                <td>@pago.NombreCreador @pago.ApellidoCreador </td>
-                <td>@pago.NombreFinalizador @pago.ApellidoFinalizador</td>
+                @if (User.IsInRole("ADMIN"))
+                {
+                    <td>@pago.NombreCreador @pago.ApellidoCreador </td>
+                    <td>@pago.NombreFinalizador @pago.ApellidoFinalizador</td>
                 }
-                <td>
-                    <a asp-action="EditarPago" asp-route-id="@pago.id" class="btn btn-sm btn-warning">Editar</a>
-                    @if(User.IsInRole("ADMIN")){
-                    <a asp-action="EliminarPago" asp-route-id="@pago.id" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres anular este pago?');">Anular</a>
-                    }
+                <td class="dropdown text-center">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">
+                        <i class="bi bi-three-dots"></i>
+                    </div>
+                    <ul class="dropdown-menu shadow">
+                        <li>
+                            <a class="dropdown-item text-warning" asp-action="EditarPago" asp-route-id="@pago.id">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </a>
+                        </li>
+                        @if (User.IsInRole("ADMIN"))
+                        {
+                            <li>
+                                <a class="dropdown-item text-danger" asp-action="EliminarPago" asp-route-id="@pago.id"
+                                    onclick="return confirm('¿Seguro que quieres anular este pago?');">
+                                    <i class="bi bi-trash"></i> Anular
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </td>
             </tr>
         }

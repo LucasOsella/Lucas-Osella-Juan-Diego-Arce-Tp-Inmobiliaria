@@ -24,6 +24,7 @@ public class ContratosController : Controller
         repoInmuebles = new RepositoriosInmuebles(conexionBD);
         repoInquilinos = new RepositoriosInquilinos(conexionBD);
         repoUsuarios = new RepositorioUsuario(conexionBD);
+        repoPagos = new RepositorioPagos(conexionBD);
     }
 
     public IActionResult Index()
@@ -130,33 +131,41 @@ public class ContratosController : Controller
     }
 
     public IActionResult Rescindir(int id)
-    {
-        var fechaRescision = DateTime.Now;
-        var contrato = repo.ObtenerPorId(id);
+        {
+            var fechaRescision = DateTime.Now;
+            var contrato = repo.ObtenerPorId(id);
+            int mesesAdeudados = repoPagos.ObtenerMesesAdeudados(id);
+            var diferencia = contrato.fecha_fin - fechaRescision;
+            var cobroMes = 0.0m;
+            var multa=0.0m;
+        if (diferencia.TotalDays < 30)
+        {
+            cobroMes = 1;
+        }
+        else if (diferencia.TotalDays < 60)
+        {
+            cobroMes = 2;
+        }
+        else if (diferencia.TotalDays < 90)
+        {
+            cobroMes = 3;
+        }
+        else if (diferencia.TotalDays > 90)
+        {
+            cobroMes = 6;
+        }
+        multa =contrato.monto_mensual*cobroMes;
+            ViewBag.DeudaMeses = mesesAdeudados;
+            ViewBag.diferencia = diferencia;
+            ViewBag.Multa = multa;
+            // Guardar cambios en el contrato
+            contrato.fecha_rescision = fechaRescision;
+            contrato.multa = multa;
+            contrato.multa_pagada=false;
+            repo.GuardarContratoRecindido(contrato.id, multa, false);
 
-        // Calcular duración original en meses
-        var mesesTotales = ((contrato.fecha_fin.Year - contrato.fecha_inicio.Year) * 12)
-                         + contrato.fecha_fin.Month - contrato.fecha_inicio.Month;
-
-        // Meses transcurridos hasta la rescisión
-        var mesesTranscurridos = ((fechaRescision.Year - contrato.fecha_inicio.Year) * 12)
-                               + fechaRescision.Month - contrato.fecha_inicio.Month;
-
-        // Reglas de negocio
-        var mesesMulta = mesesTranscurridos < (mesesTotales / 2) ? 2 : 1;
-        var multa = mesesMulta * contrato.monto_mensual;
-
-        int mesesAdeudados = repoPagos.ObtenerMesesAdeudados(id);
-        ViewBag.DeudaMeses = mesesAdeudados;
-        ViewBag.Multa = multa;
-        // Guardar cambios en el contrato
-        contrato.fecha_rescision = fechaRescision;
-        contrato.multa = multa;
-        contrato.multa_pagada = false;
-        repo.GuardarEditarContrato(contrato);
-
-        return View("RescindirContrato", contrato);
-    }
+            return View("RecisionContrato", contrato);
+        }
 
 [HttpPost]
 public IActionResult PagarMulta(int idContrato, decimal multa)
@@ -170,18 +179,22 @@ public IActionResult PagarMulta(int idContrato, decimal multa)
         detalle = "Multa por rescisión anticipada",
         importe = multa,
         estado = "ACTIVO",
-        id_usuario_creador = 1,
-        id_usuario_finalizador = 1
+        id_usuario_creador = 3,
+        id_usuario_finalizador = 3
     };
 
     repoPagos.AgregarPago(pago);
 
     // Actualizar contrato
     var contrato = repo.ObtenerPorId(idContrato);
-    contrato.multa_pagada = true;
-    repo.GuardarEditarContrato(contrato);
-
-    return RedirectToAction("Detalle", "Contratos", new { id = idContrato });
+    if (contrato != null)
+    {
+        if (contrato.multa_pagada == false)
+        {
+            repo.GuardarTrue(contrato);
+        }
+    }
+    return RedirectToAction("Index");
 }
 
 }

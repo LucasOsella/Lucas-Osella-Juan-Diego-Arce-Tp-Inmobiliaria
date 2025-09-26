@@ -170,6 +170,24 @@ public class RepositorioContratos
         }
     }
 
+    public void GuardarContratoRecindido(int contratoId, decimal multa, bool multaPagada)
+    {
+        var query = "UPDATE contrato SET fecha_rescision=@fecha_rescinsion, multa=@multa,multa_pagada=@multa_pagada WHERE id = @id";
+
+        using (var connection = conexionBD.GetConnection())
+        {
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", contratoId);
+                command.Parameters.AddWithValue("@fecha_rescinsion", DateTime.Now);
+                command.Parameters.AddWithValue("@multa", multa);
+                command.Parameters.AddWithValue("@multa_pagada", multaPagada);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
     // Eliminar contrato
     public void Eliminar(int id)
     {
@@ -186,28 +204,45 @@ public class RepositorioContratos
         }
     }
 
-public bool ExisteContratoSolapado(Contratos contrato)
-{
-    using (var connection = new MySqlConnection(conexionBD.GetConnection().ConnectionString))
+    public bool ExisteContratoSolapado(Contratos contrato)
     {
-        connection.Open();
-        string query = @"
+        using (var connection = new MySqlConnection(conexionBD.GetConnection().ConnectionString))
+        {
+            connection.Open();
+            string query = @"
             SELECT COUNT(*) 
             FROM contrato
             WHERE id_inmueble = @id_inmueble
                 AND @fecha_inicio <= fecha_fin
                 AND @fecha_fin >= fecha_inicio;";
 
-        using (var cmd = new MySqlCommand(query, connection))
-        {
-            cmd.Parameters.AddWithValue("@id_inmueble", contrato.id_inmueble);
-            cmd.Parameters.AddWithValue("@fecha_inicio", contrato.fecha_inicio);
-            cmd.Parameters.AddWithValue("@fecha_fin", contrato.fecha_fin);
+            using (var cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@id_inmueble", contrato.id_inmueble);
+                cmd.Parameters.AddWithValue("@fecha_inicio", contrato.fecha_inicio);
+                cmd.Parameters.AddWithValue("@fecha_fin", contrato.fecha_fin);
 
-            int count = Convert.ToInt32(cmd.ExecuteScalar());
-            return count > 0;
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
         }
     }
-}
+
+    public void GuardarTrue(Contratos contrato)
+    {
+        var query = "UPDATE contrato SET multa_pagada = @multa_pagada WHERE id = @id";
+
+        using (var connection = conexionBD.GetConnection())
+        {
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@id", contrato.id);
+                command.Parameters.AddWithValue("@multa_pagada", true);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+    }
 
 }

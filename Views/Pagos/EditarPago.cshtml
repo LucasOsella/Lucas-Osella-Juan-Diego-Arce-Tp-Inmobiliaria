@@ -6,94 +6,49 @@
     var usuarios = ViewBag.Usuarios as List<Tp_inmobiliaria.Models.Usuario>;
 }
 
-<h2 class="mb-4">Editar Pago</h2>
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px; border-radius: 12px; background-color: #fefefe;">
+    <h4 class="mb-4 text-center">Editar Pago</h4>
 
-<form asp-action="GuardarEdicionPago" method="post">
-    <input type="hidden" asp-for="id" />
+    <form asp-action="GuardarEdicionPago" method="post">
+        <input type="hidden" asp-for="id" />
 
-    @* <div class="mb-3">
-        <label class="form-label">Contrato</label>
-        <select asp-for="id_contrato" class="form-select">
-            @foreach (var contrato in contratos)
-            {
-                <option value="@contrato.id" selected="@(Model.id_contrato == contrato.id)">
-                    @contrato.id
-                </option>
-            }
-        </select>
-    </div> *@
-    <div class="mb-3">
-        <label class="form-label">Contrato</label>
-        <input asp-for="id_contrato" class="form-control" readonly/>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Contrato</label>
+            <input asp-for="id_contrato" class="form-control" readonly />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Número de Pago</label>
-        <input asp-for="numero_pago" class="form-control" readonly/>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Número de Pago</label>
+            <input asp-for="numero_pago" class="form-control" readonly />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Fecha</label>
-        <input asp-for="fecha_pago" type="date" class="form-control" readonly/>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <input asp-for="fecha_pago" type="date" class="form-control" readonly />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Detalle</label>
-        <input asp-for="detalle" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Detalle</label>
+            <input asp-for="detalle" class="form-control" />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Importe</label>
-        <input asp-for="importe" type="number" step="0.01" class="form-control" readonly/>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Importe</label>
+            <input asp-for="importe" type="number" step="0.01" class="form-control" readonly />
+        </div>
 
-    @* <div class="mb-3">
-        <label class="form-label">Estado</label>
-        <select asp-for="estado" class="form-select">
-            <option value="ACTIVO" selected="@(Model.estado == "ACTIVO")">ACTIVO</option>
-            <option value="ANULADO" selected="@(Model.estado == "ANULADO")">ANULADO</option>
-        </select>
-    </div> *@
-    <div class="mb-3">
-        <label class="form-label">Estado</label>
-        <input asp-for="estado" class="form-control" readonly/>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <input asp-for="estado" class="form-control" readonly />
+        </div>
 
-    <div class="mb-3">
-        <input asp-for="id_usuario_creador" class="form-control" readonly hidden/>
-    </div>
-    <div class="mb-3">
-        <input asp-for="id_usuario_finalizador" class="form-control" readonly hidden/>
-    </div>
-    <div class="mb-3">
-        <input asp-for="id_contrato" class="form-control" readonly hidden/>
-    </div>
+        <input asp-for="id_usuario_creador" hidden />
+        <input asp-for="id_usuario_finalizador" hidden />
+        <input asp-for="id_contrato" hidden />
 
-    @* <div class="mb-3">
-        <label class="form-label">Usuario Creador</label>
-        <select asp-for="id_usuario_creador" class="form-select">
-            @foreach (var usuario in usuarios)
-            {
-                <option value="@usuario.Id" selected="@(Model.id_usuario_creador == usuario.Id)">
-                    @usuario.NombreUsuario
-                </option>
-            }
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Usuario Finalizador (opcional)</label>
-        <select asp-for="id_usuario_finalizador" class="form-select">
-            <option value="">-- Seleccionar --</option>
-            @foreach (var usuario in usuarios)
-            {
-                <option value="@usuario.Id" selected="@(Model.id_usuario_finalizador == usuario.Id)">
-                    @usuario.NombreUsuario
-                </option>
-            }
-        </select>
-    </div> *@
-
-    <button type="submit" class="btn btn-success">Guardar Cambios</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
