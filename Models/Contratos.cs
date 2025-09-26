@@ -32,6 +32,10 @@ namespace Tp_inmobiliaria.Models
         [Required(ErrorMessage = "Debe registrarse quién creó el contrato.")]
         public int? id_creador { get; set; }
 
+        public DateTime? fecha_rescision { get; set; }   
+        public decimal? multa { get; set; }              
+        public bool multa_pagada { get; set; } = false;
+
         // este puede ser null hasta que alguien finalice el contrato
         public int? id_finalizador { get; set; }
         public string? NombreInquilino { get; set; }

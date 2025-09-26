@@ -46,7 +46,9 @@
                     <a class="btn btn-info btn-sm" asp-action="Renovar" asp-route-id="@p.id">
                     <i class="bi bi-file-earmark-plus"></i> 
                     </a>
-
+                    <a class="btn btn-warning btn-sm" asp-action="Rescindir" asp-route-id="@p.id">
+                         <i class="bi bi-exclamation-triangle"></i> Rescindir
+                            </a>
                     @if (User.IsInRole("ADMIN"))
                     {
                         <a class="btn btn-danger btn-sm" asp-action="EliminarContrato" asp-route-id="@p.id" onclick="return confirm('¿Seguro que quieres ELIMINAR este Contrato?');">

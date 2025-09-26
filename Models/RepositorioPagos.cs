@@ -200,4 +200,24 @@ public class RepositorioPagos
             }
         }
     }
+
+    public int ObtenerMesesAdeudados(int idContrato)
+    {
+        int mesesAdeudados = 0;
+        using (var connection = conexionBD.GetConnection())
+        {
+            var query = "SELECT COUNT(*) FROM pago WHERE id_contrato = @idContrato AND estado = 'PENDIENTE'";
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@idContrato", idContrato);
+                connection.Open();
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    mesesAdeudados = reader.GetInt32(0);
+                }
+            }
+        }
+        return mesesAdeudados;
+    }
 }

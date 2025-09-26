@@ -1,0 +1,22 @@
+@model Tp_inmobiliaria.Models.Contratos
+
+<h2>Rescisión de Contrato</h2>
+
+<p><strong>Fecha de inicio:</strong> @Model.fecha_inicio.ToString("dd/MM/yyyy")</p>
+<p><strong>Fecha de fin original:</strong> @Model.fecha_fin.ToString("dd/MM/yyyy")</p>
+<p><strong>Fecha de rescisión:</strong> @Model.fecha_rescision?.ToString("dd/MM/yyyy")</p>
+<p><strong>Meses adeudados:</strong> @ViewBag.DeudaMeses</p>
+<p><strong>Multa:</strong> $@ViewBag.Multa</p>
+
+@if (!Model.multa_pagada)
+{
+    <form asp-action="PagarMulta" method="post">
+        <input type="hidden" name="idContrato" value="@Model.id" />
+        <input type="hidden" name="multa" value="@Model.multa" />
+        <button type="submit" class="btn btn-danger">Registrar Pago de Multa</button>
+    </form>
+}
+else
+{
+    <p class="text-success">La multa ya fue pagada.</p>
+}
