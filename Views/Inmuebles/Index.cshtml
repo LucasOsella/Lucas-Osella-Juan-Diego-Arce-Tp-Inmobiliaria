@@ -4,125 +4,140 @@
     ViewData["Title"] = "Inmuebles";
 }
 
-<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Lista de Inmuebles</h2>
-
-    <div class="btn-group">
-        <a class="btn btn-primary" asp-action="AgregarInmueble">
-            <i class="bi bi-house-add"></i> Agregar Inmueble
-        </a>
-        <a class="btn btn-success" asp-controller="TipoInmueble" asp-action="Index">
-            <i class="bi bi-card-list"></i> Tipos de Inmuebles
-        </a>
-        <a class="btn btn-secondary" asp-action="Index">
-            <i class="bi bi-x-circle"></i> Borrar Filtros
-        </a>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-primary">
+            <i class="bi bi-building"></i> Lista de Inmuebles
+        </h1>
+        <div class="btn-group">
+            <a class="btn btn-primary shadow-sm" asp-action="AgregarInmueble">
+                <i class="bi bi-house-add"></i> Agregar Inmueble
+            </a>
+            <a class="btn btn-success shadow-sm" asp-controller="TipoInmueble" asp-action="Index">
+                <i class="bi bi-card-list"></i> Tipos de Inmuebles
+            </a>
+            <a class="btn btn-secondary shadow-sm" asp-action="Index">
+                <i class="bi bi-x-circle"></i> Borrar Filtros
+            </a>
+        </div>
     </div>
 
-    <div class="dropdown ms-2">
-        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownFechas"
-                data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-calendar-range"></i> Filtrar por fecha
-        </button>
-        <div class="dropdown-menu p-4 shadow rounded-3" aria-labelledby="dropdownFechas" style="min-width: 300px;">
-            <form asp-action="FiltrarPorFecha" method="get" class="d-flex flex-column gap-3">
-                <div>
-                    <label for="fecha_inicio" class="form-label">Fecha inicio</label>
-                    <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" />
-                </div>
-                <div>
-                    <label for="fecha_fin" class="form-label">Fecha fin</label>
-                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" />
-                </div>
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-funnel"></i> Filtrar
+    <div class="card shadow-lg border-0 rounded-3 mb-4">
+        <div class="card-body">
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownFechas"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-calendar-range"></i> Filtrar por fecha
                 </button>
-            </form>
+                <div class="dropdown-menu p-4 shadow rounded-3" aria-labelledby="dropdownFechas" style="min-width: 300px;">
+                    <form asp-action="FiltrarPorFecha" method="get" class="d-flex flex-column gap-3">
+                        <div>
+                            <label for="fecha_inicio" class="form-label">Fecha inicio</label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" />
+                        </div>
+                        <div>
+                            <label for="fecha_fin" class="form-label">Fecha fin</label>
+                            <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-funnel"></i> Filtrar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.FechaInicio != null && ViewBag.FechaFin != null)
+    {
+        <div class="alert alert-info shadow-sm" role="alert">
+            <i class="bi bi-info-circle"></i> Filtrado por fecha:
+            Desde <strong>@(((DateTime)ViewBag.FechaInicio).ToString("dd-MM-yyyy"))</strong>
+            hasta <strong>@(((DateTime)ViewBag.FechaFin).ToString("dd-MM-yyyy"))</strong>
+        </div>
+    }
+
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Dirección</th>
+                        <th>Uso</th>
+                        <th>Ambientes</th>
+                        <th>Coordenadas</th>
+                        <th>Precio</th>
+                        <th>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light border shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Estado
+                                </button>
+                                <ul class="dropdown-menu shadow-sm">
+                                    <li><a class="dropdown-item" asp-action="Index" asp-route-estado="">Todos</a></li>
+                                    <li><a class="dropdown-item" asp-action="Filtrar" asp-route-estado="DISPONIBLE">Disponibles</a></li>
+                                    <li><a class="dropdown-item" asp-action="Filtrar" asp-route-estado="OCUPADO">Ocupados</a></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th>Propietario</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold text-center">@i.Id</td>
+                            <td>@i.Direccion</td>
+                            <td>@i.Uso</td>
+                            <td>@i.Ambientes</td>
+                            <td>@i.Coordenadas</td>
+                            <td>$@i.Precio</td>
+                            <td class="text-center">
+                                @if (i.Estado == "DISPONIBLE")
+                                {
+                                    <span class="badge bg-success">@i.Estado</span>
+                                }
+                                else if (i.Estado == "OCUPADO")
+                                {
+                                    <span class="badge bg-danger">@i.Estado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@i.Estado</span>
+                                }
+                            </td>
+                            <td>@i.Propietario</td>
+                            <td>@i.TipoInmueble</td>
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light border shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-3">
+                                        <li>
+                                            <a class="dropdown-item text-primary" asp-action="EditarInmueble" asp-route-id="@i.Id">
+                                                <i class="bi bi-pencil-square"></i> Editar
+                                            </a>
+                                        </li>
+                                        @if (User.IsInRole("ADMIN"))
+                                        {
+                                            <li>
+                                                <a class="dropdown-item text-danger" asp-action="EliminarInmueble" asp-route-id="@i.Id"
+                                                   onclick="return confirm('¿Seguro que quieres eliminar este inmueble?');">
+                                                    <i class="bi bi-trash"></i> Eliminar
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-@if (ViewBag.FechaInicio != null && ViewBag.FechaFin != null)
-{
-    <div class="alert alert-info shadow-sm" role="alert">
-        <i class="bi bi-info-circle"></i> Filtrado por fecha: 
-        Desde <strong>@(((DateTime)ViewBag.FechaInicio).ToString("dd-MM-yyyy"))</strong> 
-        hasta <strong>@(((DateTime)ViewBag.FechaFin).ToString("dd-MM-yyyy"))</strong>
-    </div>
-}
-
-<table class="table table-bordered table-striped table-hover align-middle shadow-sm">
-    <thead class="table-dark text-center">
-        <tr>
-            <th>ID</th>
-            <th>Dirección</th>
-            <th>Uso</th>
-            <th>Ambientes</th>
-            <th>Coordenadas</th>
-            <th>Precio</th>
-            <th class="dropdown">
-                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                    Estado
-                </div>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" asp-action="Index" asp-route-estado="">Todos</a>
-                    <a class="dropdown-item" asp-action="Filtrar" asp-route-estado="DISPONIBLE">Disponibles</a>
-                    <a class="dropdown-item" asp-action="Filtrar" asp-route-estado="OCUPADO">Ocupados</a>
-                </div>
-            </th>
-            <th>Propietario</th>
-            <th>Tipo</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var i in Model)
-        {
-            <tr>
-                <td>@i.Id</td>
-                <td>@i.Direccion</td>
-                <td>@i.Uso</td>
-                <td>@i.Ambientes</td>
-                <td>@i.Coordenadas</td>
-                <td>$@i.Precio</td>
-                <td>
-                    @if (i.Estado == "DISPONIBLE")
-                    {
-                        <span class="badge bg-success">@i.Estado</span>
-                    }
-                    else if (i.Estado == "OCUPADO")
-                    {
-                        <span class="badge bg-danger">@i.Estado</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">@i.Estado</span>
-                    }
-                </td>
-                <td>@i.Propietario</td>
-                <td>@i.TipoInmueble</td>
-                <td class="dropdown text-center">
-                    <div class="dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">
-                        <i class="bi bi-three-dots-vertical"></i>
-                    </div>
-                    <ul class="dropdown-menu shadow">
-                        <li>
-                            <a class="dropdown-item text-warning" asp-action="EditarInmueble" asp-route-id="@i.Id">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </a>
-                        </li>
-                        @if (User.IsInRole("ADMIN"))
-                        {
-                            <li>
-                                <a class="dropdown-item text-danger" asp-action="EliminarInmueble" asp-route-id="@i.Id"
-                                   onclick="return confirm('¿Seguro que quieres eliminar este inmueble?');">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
