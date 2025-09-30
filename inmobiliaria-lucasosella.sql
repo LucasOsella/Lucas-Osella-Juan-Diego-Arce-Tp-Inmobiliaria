@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2025 a las 07:16:53
+-- Tiempo de generación: 30-09-2025 a las 23:53:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,7 +47,7 @@ CREATE TABLE `contrato` (
 
 INSERT INTO `contrato` (`id`, `id_inquilino`, `id_inmueble`, `fecha_inicio`, `fecha_fin`, `monto_mensual`, `id_usuario_creador`, `id_usuario_finalizador`, `fecha_rescision`, `multa_pagada`, `multa`) VALUES
 (2, 1, 1, '2025-09-13', '2025-12-13', 12000, 10, 10, '2025-09-26', 1, 36000),
-(8, 1, 2, '2025-09-25', '2025-11-26', 1, 10, NULL, '2025-09-26', 1, 3),
+(8, 1, 2, '2025-09-25', '2025-11-28', 1, 10, NULL, '2025-09-26', 1, 3),
 (12, 3, 3, '2025-09-26', '2025-12-26', 12000, 10, 10, '2025-09-26', 1, 72000);
 
 -- --------------------------------------------------------
@@ -98,10 +98,11 @@ CREATE TABLE `inquilino` (
 --
 
 INSERT INTO `inquilino` (`id`, `dni`, `nombre`, `telefono`, `email`, `direccion`) VALUES
-(1, '50355831', 'Inquilino', '255666444', 'In@gmail.com', 'Calle Inquilino'),
+(1, '50355831', 'InquilinoDOs', '255666444', 'In@gmail.com', 'Calle Inquilino'),
 (3, '13910509', 'Walter Osella', '2664322331', 'wo@gmail.com', '20 de junio'),
 (4, '321', 'testInquilino', '2222222222', 'testInq@gmail.com', 'testDirecInquilino'),
-(5, '43282117', 'Lucas Agustin Osella Rocha', '2664506790', 'lucasosella01@gmail.com', '20 de junio');
+(5, '43282117', 'Lucas Agustin Osella Rocha', '2664506790', 'lucasosella01@gmail.com', '20 de junio'),
+(6, '50355831', 'Inquilinsasdasd', '255666444', 'In@gmail.com', 'Calle Inquilino');
 
 -- --------------------------------------------------------
 
@@ -154,7 +155,7 @@ CREATE TABLE `propietario` (
 --
 
 INSERT INTO `propietario` (`id`, `dni`, `apellido`, `nombre`, `telefono`, `email`, `direccion`) VALUES
-(2, 43282117, 'Osella', 'Lucas Agustin', '2664506790', 'lucasosella01@gmail.com', '20 de junio'),
+(2, 43282117, 'Osella Rocha', 'Lucas Agustin', '2664506790', 'lucasosella01@gmail.com', '20 de junio'),
 (3, 44019537, 'Arce', 'Juan El Diego', '2664758595', 'jd@gmail.com', 'Calle 12 1032'),
 (4, 44787969, 'propietarioApellido', 'propietarioNombre', '2657421678', 'propietario1@gmail.com', 'propietarioCasa'),
 (7, 45588595, 'testapellidopro', 'testnombrepropietario', '266555444888', 'testInq@gmail.com', 'testDirecInquilino2'),
@@ -230,7 +231,8 @@ INSERT INTO `usuario` (`id`, `nombre_usuario`, `apellido_usuario`, `email`, `pas
 (18, 'El usuario', 'uno', 'elusurio1@gmail.com', 'AQAAAAIAAYagAAAAELd8+KAbXjWz2KdpaN9RvQ1Gm1ttb22O/Zo+7Um7hSV3zcvRffHghZjR12svTyY1CA==', 2, 1, '0000-00-00', '/images/usuarios/18.jpg'),
 (19, 'El usuario', 'dos', 'elusurio2@gmail.com', 'AQAAAAIAAYagAAAAECkZujVnk9jscYixBnrO4Tew8Za9JY7zXTYvWlTqhyjUb+SvbIgvTjyMLvWjjiwxHw==', 2, 1, '0000-00-00', '/images/usuarios/19.jpg'),
 (20, 'el usuario', 'tres', 'elusuario3@gmail.com', 'AQAAAAIAAYagAAAAEH7bRUdBCxl2civGJ34KM3Dl4OwCeCFBzoyFfAKvZi9wQD3HverGlW5+Cmywq6P+Mw==', 2, 1, '0000-00-00', '/images/usuarios/20.jpg'),
-(21, 'El usuario ', 'Cuatro', 'usuariocuatro@gmail.com', 'AQAAAAIAAYagAAAAEFlW22vRpPL3RptLH3BdDVDy3n+IvcROfVRdv8uuZHJgfuWxwZ2oIFeT+Oh50CCoHA==', 2, 0, '0000-00-00', '/images/usuarios/21.jpg');
+(21, 'El usuario ', 'Cuatro', 'usuariocuatro@gmail.com', 'AQAAAAIAAYagAAAAEFlW22vRpPL3RptLH3BdDVDy3n+IvcROfVRdv8uuZHJgfuWxwZ2oIFeT+Oh50CCoHA==', 2, 0, '0000-00-00', '/images/usuarios/21.jpg'),
+(22, 'jorge', 'jorge', 'jorge@gmail.com', 'AQAAAAIAAYagAAAAEJAVbYXVh8Lu4Ig3nY7MsrVyAhjtZStz5peHiw0FNiDZ8wWLl4sbLiWGGk/QX88hYg==', 2, 1, '0000-00-00', '/images/usuarios/22.jpg');
 
 --
 -- Índices para tablas volcadas
@@ -308,13 +310,13 @@ ALTER TABLE `contrato`
 -- AUTO_INCREMENT de la tabla `inmueble`
 --
 ALTER TABLE `inmueble`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `inquilino`
 --
 ALTER TABLE `inquilino`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `pago`
@@ -326,7 +328,7 @@ ALTER TABLE `pago`
 -- AUTO_INCREMENT de la tabla `propietario`
 --
 ALTER TABLE `propietario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_inmueble`
@@ -344,7 +346,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas

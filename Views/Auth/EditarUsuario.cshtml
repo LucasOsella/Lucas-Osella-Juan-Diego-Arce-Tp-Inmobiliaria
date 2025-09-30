@@ -7,14 +7,17 @@
     <h4 class="mb-4 text-center">Editar Usuario</h4>
 
     <form asp-action="GuardarEdicion" method="post" enctype="multipart/form-data">
-        <input type="hidden" asp-for="Id"/>
+        
 
         <div class="mb-3 text-center">
             <img src="@Model.foto" alt="Foto de perfil" class="rounded-circle mb-3"
                 style="width: 100px; height: 100px; object-fit: cover;">
         </div>
-
-        <div class="mb-3">
+        <div class="mb-3 text-center">
+        <input type="" asp-for="Id" readonly/>
+        </div>
+        
+    <div class="mb-3">
             <label asp-for="NombreUsuario" class="form-label"></label>
             <input asp-for="NombreUsuario" class="form-control" />
             <span asp-validation-for="NombreUsuario" class="text-danger"></span>

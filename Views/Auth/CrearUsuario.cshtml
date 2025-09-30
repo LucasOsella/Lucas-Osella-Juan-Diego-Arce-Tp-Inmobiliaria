@@ -6,7 +6,7 @@
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 500px; border-radius: 12px; background-color: #fefefe;">
     <h4 class="mb-4 text-center">Crear Usuario</h4>
 
-    <form asp-action="CrearUsuario" method="post" enctype="multipart/form-data">
+    <form asp-action="GuardarUsuarioCreado" method="post">
         <div class="mb-3">
             <label asp-for="NombreUsuario" class="form-label"></label>
             <input asp-for="NombreUsuario" class="form-control" />

@@ -84,22 +84,28 @@ namespace Tp_inmobiliaria.Controllers
             var lista = repo.ObtenerUsuarios();
             return View(lista); // Busca Views/Auth/ListaUsuario.cshtml
         }
-        [HttpGet]
         public IActionResult CrearUsuario()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario(Usuario usuario, IFormFile FotoArchivo)
-        { 
-                // Hashear la contraseña antes de guardarla
-                var hasher = new PasswordHasher<Usuario>();
-                usuario.Password = hasher.HashPassword(usuario, usuario.Password);
-                usuario.Activo = 1; // Asegurarse de que el usuario esté activo al crearlo
-                usuario.foto = "/images/usuarios/default.png"; // Ruta por defecto si no se sube ninguna foto
-                repo.CrearUsuario(usuario);
-                return RedirectToAction("Index", "Home");
+        public IActionResult GuardarUsuarioCreado(Usuario usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("CrearUsuario", usuario);
+            }
+
+            var hasher = new PasswordHasher<Usuario>();
+            usuario.Password = hasher.HashPassword(usuario, usuario.Password);
+            usuario.Activo = 1;
+            usuario.foto = "/images/usuarios/default.png";
+
+            repo.CrearUsuario(usuario); 
+
+            return RedirectToAction("Index", "Home");
         }
+
 
 
         public IActionResult EditarUsuario(int id)
@@ -112,7 +118,7 @@ namespace Tp_inmobiliaria.Controllers
             return View(usuario);// busca
         }
 
-        public async Task <IActionResult> GuardarEdicion(Usuario usuario, IFormFile FotoArchivo)
+        public async Task<IActionResult> GuardarEdicion(Usuario usuario, IFormFile FotoArchivo)
         {
             if (FotoArchivo != null && FotoArchivo.Length > 0)
             {
@@ -144,12 +150,12 @@ namespace Tp_inmobiliaria.Controllers
             {
                 var hasher = new PasswordHasher<Usuario>();
                 usuarioExistente.Password = hasher.HashPassword(usuarioExistente, usuario.Password);
-            } 
+            }
             usuarioExistente.NombreUsuario = usuario.NombreUsuario;
-            usuarioExistente.ApellidoUsuario = usuario.ApellidoUsuario; 
+            usuarioExistente.ApellidoUsuario = usuario.ApellidoUsuario;
             usuarioExistente.Email = usuario.Email;
             usuarioExistente.IdTipoUsuario = usuario.IdTipoUsuario;
-            usuarioExistente.foto = usuario.foto;           
+            usuarioExistente.foto = usuario.foto;
             repo.EditarUsuario(usuarioExistente);
 
             return RedirectToAction("Index", "Home");
@@ -174,5 +180,5 @@ namespace Tp_inmobiliaria.Controllers
 
     }
 
-//hola    
+    //hola    
 }

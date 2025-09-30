@@ -7,6 +7,7 @@
 <h2>Agregar Tipo de Inmueble</h2>
 
 <form asp-action="guardarTipoEditado" method="post">
+    <input asp-for="Id" class="form-control" readonly />
     <div class="form-group">
         <label asp-for="Nombre"></label>
         <input asp-for="Nombre" class="form-control" />

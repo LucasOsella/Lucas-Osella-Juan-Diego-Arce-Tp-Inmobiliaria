@@ -93,25 +93,27 @@ public class RepositorioUsuario
     }
     public void CrearUsuario(Usuario usuario)
     {
-    using (var connection = conexionBD.GetConnection())
-    {
-        var query = @"INSERT INTO usuario 
+        using (var connection = conexionBD.GetConnection())
+
+        {
+            var query = @"INSERT INTO usuario 
             (nombre_usuario, apellido_usuario, email, password, id_tipo_usuario, activo, foto) 
             VALUES (@NombreUsuario, @ApellidoUsuario, @Email, @Password, @IdTipoUsuario, 1, @Foto)";
 
-        using (var command = new MySqlCommand(query, connection))
-        {
-            command.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
-            command.Parameters.AddWithValue("@ApellidoUsuario", usuario.ApellidoUsuario);
-            command.Parameters.AddWithValue("@Email", usuario.Email);
-            command.Parameters.AddWithValue("@Password", usuario.Password);
-            command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
-            command.Parameters.AddWithValue("@Foto", usuario.foto ?? (object)DBNull.Value);
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
+                command.Parameters.AddWithValue("@ApellidoUsuario", usuario.ApellidoUsuario);
+                command.Parameters.AddWithValue("@Email", usuario.Email);
+                command.Parameters.AddWithValue("@Password", usuario.Password);
+                command.Parameters.AddWithValue("@IdTipoUsuario", usuario.IdTipoUsuario);
+                command.Parameters.AddWithValue("@Foto", usuario.foto ?? (object)DBNull.Value);
 
-            connection.Open();
-            command.ExecuteNonQuery();
+                connection.Open();
+                command.ExecuteNonQuery();               
+            }
         }
-    }
+        
 }
     public Usuario ObtenerUsuarioPorId(int id)
     {

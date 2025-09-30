@@ -1,14 +1,15 @@
 @model Tp_inmobiliaria.Models.Inmueble
 
 @{
-    ViewData["Title"] = "Agregar Inmueble";
+    ViewData["Title"] = "Editar Inmueble";
 }
 
 
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px; border-radius: 12px; background-color: #fefefe;">
     <h4 class="mb-4 text-center">Editar Inmueble</h4>
 
-    <form asp-action="GuardarInmueble" method="post">
+    <form asp-action="GuardarEdicionInmueble" method="post">
+        <input asp-for="Id" class="form-control" readonly />
         <div class="mb-3">
             <label asp-for="Direccion" class="form-label"></label>
             <input asp-for="Direccion" class="form-control" />

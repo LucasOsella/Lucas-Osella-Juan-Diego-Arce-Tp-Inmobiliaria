@@ -6,7 +6,8 @@
 <div class="card shadow-sm p-4 mx-auto" style="max-width: 500px; border-radius: 12px; background-color: #fefefe;">
     <h4 class="mb-4 text-center">Editar Inquilino</h4>
 
-    <form asp-action="GuardarInquilino" method="post">
+    <form asp-action="GuardarEdicionInquilinos" method="post">
+        <input asp-for="Id" class="form-control" readonly />
         <div class="form-group mb-3">
             <label asp-for="Dni"></label>
             <input asp-for="Dni" class="form-control" type="number" />
